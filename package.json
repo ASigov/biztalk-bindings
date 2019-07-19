@@ -1,0 +1,40 @@
+{
+  "private": true,
+  "name": "biztalk-bindings",
+  "version": "1.0.0",
+  "description": "Web application for managing BizTalk binding files",
+  "author": {
+    "name": "Alexey Sigov"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ASigov/biztalk-bindings.git"
+  },
+  "scripts": {
+    "build-server": "tsc --project tsconfig.json",
+    "build-client": "webpack",
+    "watch-server": "tsc --watch --project tsconfig.json",
+    "watch-client": "webpack --watch",
+    "dev-server": "nodemon --watch dist --exec node -- dist"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.0",
+    "@types/node": "^12.6.6",
+    "@types/react": "^16.8.23",
+    "@types/react-dom": "^16.8.4",
+    "@types/webpack": "^4.4.35",
+    "nodemon": "^1.19.1",
+    "source-map-loader": "^0.2.4",
+    "ts-loader": "^6.0.4",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.3",
+    "webpack": "^4.35.3",
+    "webpack-cli": "^3.3.6"
+  }
+}
