@@ -1,7 +1,8 @@
-import React from "react";
+import React from 'react';
 
-export const App: React.FC = () => {
-  return (
-    <div>Hello React</div>
-  );
-}
+const App: React.FC = (): JSX.Element => {
+  const result = <div>Hello React</div>;
+  return result;
+};
+
+export default App;
