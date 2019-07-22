@@ -1,4 +1,12 @@
 module.exports = {
+  extends: [
+    'airbnb',
+    'plugin:@typescript-eslint/recommended',
+    'prettier',
+    'prettier/@typescript-eslint',
+    'prettier/react',
+  ],
+  plugins: ['@typescript-eslint', 'react'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
@@ -8,10 +16,11 @@ module.exports = {
     sourceType: 'module',
     project: './tsconfig.json',
   },
-  plugins: [
-    'react',
-    '@typescript-eslint',
-  ],
+  env: {
+    browser: true,
+    es6: true,
+    node: true,
+  },
   settings: {
     'import/resolver': {
       node: {
@@ -19,20 +28,8 @@ module.exports = {
       },
     },
   },
-  env: {
-    browser: true,
-    es6: true,
-    node: true,
-  },
-  extends: [
-    'airbnb',
-    'plugin:@typescript-eslint/recommended',
-  ],
   rules: {
-    '@typescript-eslint/indent': ['error', 2],
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
-    indent: ['error', 2],
-    'linebreak-style': ['error', 'windows'],
     'react/jsx-filename-extension': [1, { extensions: ['.jsx', '.tsx'] }],
   },
 };
