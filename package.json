@@ -16,6 +16,8 @@
     "build-client": "webpack",
     "dev-server": "nodemon --watch dist --exec node -- dist",
     "lint": "eslint --ext .ts --ext .tsx --ext .js .",
+    "prettier": "prettier --write \"**/*.@(ts|tsx|js|json|html|md)\"",
+    "prettier-check": "prettier --check \"**/*.@(ts|tsx|js|json|html|md)\"",
     "watch-server": "tsc --watch --project tsconfig.json",
     "watch-client": "webpack --watch"
   },
