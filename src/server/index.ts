@@ -1,8 +1,6 @@
 import express from 'express';
 import debug from 'debug';
 
-process.env.DEBUG = '*';
-
 const app = express();
 const log = debug('biztalk-bindings:server');
 
