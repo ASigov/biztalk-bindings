@@ -12,18 +12,22 @@
     "url": "https://github.com/ASigov/biztalk-bindings.git"
   },
   "scripts": {
+    "start": "node dist/index.js",
+    "build": "run-s build-*",
+    "verify": "run-s prettier lint build",
     "build-server": "tsc --project tsconfig.json",
     "build-client": "webpack",
-    "dev-server": "nodemon --watch dist --exec node -- dist",
+    "prettier": "prettier --check \"**/*.@(ts|tsx|js|json|html|md)\"",
     "lint": "eslint --ext .ts --ext .tsx --ext .js .",
-    "prettier": "prettier --write \"**/*.@(ts|tsx|js|json|html|md)\"",
-    "prettier-check": "prettier --check \"**/*.@(ts|tsx|js|json|html|md)\"",
-    "watch-server": "tsc --watch --project tsconfig.json",
-    "watch-client": "webpack --watch"
+    "dev": "run-p *-watch",
+    "build-server-watch": "tsc --watch --preserveWatchOutput --pretty --project tsconfig.json",
+    "build-client-watch": "webpack --watch --color",
+    "start-watch": "nodemon --watch dist/ --ext js --delay 2 dist/index.js"
   },
   "dependencies": {
     "debug": "^4.1.1",
     "express": "^4.17.1",
+    "npm-run-all": "^4.1.5",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   },
