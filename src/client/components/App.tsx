@@ -152,7 +152,7 @@ const App: React.FC = (): JSX.Element => {
       <div className="row">
         <div className="col mt-3">
           <button className="btn btn-primary btn-lg btn-block" type="button">
-            Generate OCCM.EDI.Router bindings
+            {`Generate ${app.name} bindings`}
           </button>
         </div>
       </div>
