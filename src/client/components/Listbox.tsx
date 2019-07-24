@@ -2,29 +2,29 @@ import React from 'react';
 import { HasName } from '../../shared/bindings';
 
 interface ListboxProps<T extends HasName> {
-  Items: T[];
-  SelectedItems: T[];
-  OnSelectionChanged: (selectedItems: T[]) => void;
+  items: T[];
+  selectedItems: T[];
+  onSelectionChanged: (selectedItems: T[]) => void;
 }
 
 const Listbox = <T extends HasName>(props: ListboxProps<T>): JSX.Element => {
-  const { Items, SelectedItems, OnSelectionChanged } = props;
+  const { items, selectedItems, onSelectionChanged } = props;
 
   const handleClick = (item: T, isSelected: boolean): void => {
     if (isSelected) {
-      OnSelectionChanged(
-        SelectedItems.filter((i): boolean => i.name !== item.name),
+      onSelectionChanged(
+        selectedItems.filter((i): boolean => i.name !== item.name),
       );
     } else {
-      OnSelectionChanged(SelectedItems.concat(item));
+      onSelectionChanged(selectedItems.concat(item));
     }
   };
 
   return (
     <div className="list-group">
-      {Items.map(
+      {items.map(
         (item): JSX.Element => {
-          const isSelected = SelectedItems.includes(item);
+          const isSelected = selectedItems.includes(item);
           return (
             <button
               className={`list-group-item list-group-item-action${

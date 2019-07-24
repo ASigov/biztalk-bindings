@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import * as bindings from '../../shared/bindings';
 import Dropdown from './Dropdown';
 import Listbox from './Listbox';
+import OpenFile from './OpenFile';
 
 const model: bindings.Bindings = {
   applications: [
@@ -85,26 +86,21 @@ const model: bindings.Bindings = {
 };
 
 const App: React.FC = (): JSX.Element => {
-  const [app, setApp] = React.useState<bindings.Application>(
-    model.applications[0],
-  );
-  const [SPs, setSPs] = React.useState<bindings.SendPort[]>([]);
-  const [RLs, setRLs] = React.useState<bindings.ReceiveLocation[]>([]);
+  const [app, setApp] = useState<bindings.Application>(model.applications[0]);
+  const [SPs, setSPs] = useState<bindings.SendPort[]>([]);
+  const [RLs, setRLs] = useState<bindings.ReceiveLocation[]>([]);
+
+  const handleOpenFile = (file: File): void => {
+    console.log(
+      `File name: ${file.name}, file type: ${file.type}, file size: ${file.size}`,
+    );
+  };
 
   return (
     <div className="container">
       <div className="row">
         <div className="col mt-3">
-          <div className="custom-file">
-            <label className="custom-file-label" htmlFor="customFile">
-              Choose bindings file
-              <input
-                className="custom-file-input"
-                type="file"
-                id="customFile"
-              />
-            </label>
-          </div>
+          <OpenFile label="Open bindings file" onFileOpen={handleOpenFile} />
         </div>
       </div>
       <div className="row">
@@ -115,9 +111,9 @@ const App: React.FC = (): JSX.Element => {
       <div className="row">
         <div className="col">
           <Dropdown
-            Items={model.applications}
-            SelectedItem={app}
-            OnSelectionChanged={setApp}
+            items={model.applications}
+            selectedItem={app}
+            onSelectionChanged={setApp}
           />
         </div>
       </div>
@@ -129,9 +125,9 @@ const App: React.FC = (): JSX.Element => {
       <div className="row">
         <div className="col">
           <Listbox
-            Items={app.sendPorts}
-            SelectedItems={SPs}
-            OnSelectionChanged={setSPs}
+            items={app.sendPorts}
+            selectedItems={SPs}
+            onSelectionChanged={setSPs}
           />
         </div>
       </div>
@@ -143,9 +139,9 @@ const App: React.FC = (): JSX.Element => {
       <div className="row">
         <div className="col">
           <Listbox
-            Items={app.receiveLocations}
-            SelectedItems={RLs}
-            OnSelectionChanged={setRLs}
+            items={app.receiveLocations}
+            selectedItems={RLs}
+            onSelectionChanged={setRLs}
           />
         </div>
       </div>
