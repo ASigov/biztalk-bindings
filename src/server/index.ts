@@ -4,6 +4,7 @@ import debug from 'debug';
 import { Application, SendPort, ReceiveLocation } from '../shared/bindings';
 import parseBindings from './bindingsParser';
 
+const port = process.env.PORT ? process.env.PORT : 3000;
 const app = express();
 const formDataHandler = multer();
 const log = debug('biztalk-bindings:server');
@@ -56,4 +57,4 @@ app.post(
   },
 );
 
-app.listen(3000, (): void => log('Listening on port 3000...'));
+app.listen(port, (): void => log(`Listening on ${port} port ...`));
