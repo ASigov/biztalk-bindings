@@ -2,8 +2,8 @@ import React from 'react';
 import { HasName } from '../../shared/bindings';
 
 interface DropdownProps<T extends HasName> {
-  items: T[];
-  selectedItem: T;
+  items?: T[];
+  selectedItem?: T;
   onSelectionChanged: (item: T) => void;
 }
 
@@ -19,21 +19,22 @@ const Dropdown = <T extends HasName>(props: DropdownProps<T>): JSX.Element => {
         aria-haspopup="true"
         aria-expanded="false"
       >
-        {selectedItem.name}
+        {selectedItem ? selectedItem.name : 'Select ...'}
       </button>
       <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        {items.map(
-          (item): JSX.Element => (
-            <button
-              className="dropdown-item"
-              type="button"
-              key={item.name}
-              onClick={(): void => onSelectionChanged(item)}
-            >
-              {item.name}
-            </button>
-          ),
-        )}
+        {items &&
+          items.map(
+            (item): JSX.Element => (
+              <button
+                className="dropdown-item"
+                type="button"
+                key={item.name}
+                onClick={(): void => onSelectionChanged(item)}
+              >
+                {item.name}
+              </button>
+            ),
+          )}
       </div>
     </div>
   );

@@ -4,5 +4,5 @@
     "outDir": "./dist",
     "target": "ES2018"
   },
-  "include": ["./src/server/**/*.ts"]
+  "include": ["./src/server/**/*.ts", "./src/shared/**/*.ts"]
 }
