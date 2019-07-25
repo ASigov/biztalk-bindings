@@ -29,8 +29,18 @@ module.exports = {
     },
   },
   rules: {
+    'no-useless-constructor': 'off',
+    '@typescript-eslint/no-useless-constructor': 'error',
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'jsx-a11y/label-has-for': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.jsx', '.tsx'] }],
   },
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx'],
+      rules: {
+        'no-dupe-class-members': 'off',
+      },
+    },
+  ],
 };
