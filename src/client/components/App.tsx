@@ -21,7 +21,8 @@ const App: React.FC = (): JSX.Element => {
     const data = new FormData();
     data.append('file', file);
     try {
-      const response = await axios.post('http://localhost:3000/upload', data);
+      const url = `${window.location.origin}/upload`;
+      const response = await axios.post(url, data);
       const newBindings = response.data as Bindings;
       setBindings(newBindings);
       setSelectedApp(newBindings && newBindings.applications[0]);
