@@ -3,7 +3,11 @@
   "compilerOptions": {
     "outDir": "./dist",
     "target": "ES2018",
-    "typeRoots": ["./@types"]
+    "typeRoots": ["./src/@types"]
   },
-  "include": ["./src/server/**/*.ts", "./src/shared/**/*.ts", "./@types"]
+  "include": [
+    "./src/server/**/*.ts",
+    "./src/shared/**/*.ts",
+    "./src/@types/**/*.ts"
+  ]
 }
