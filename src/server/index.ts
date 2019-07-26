@@ -10,7 +10,6 @@ const app = express();
 const formDataHandler = multer();
 const log = debug('biztalk-bindings:server');
 
-app.use(express.static('public'));
 app.use(express.static('dist/client'));
 app.use(express.static('node_modules/react/umd'));
 app.use(express.static('node_modules/react-dom/umd'));

@@ -1,5 +1,6 @@
 import path from 'path';
 import { Configuration } from 'webpack';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 const config: Configuration = {
   mode: 'development',
@@ -23,6 +24,12 @@ const config: Configuration = {
       },
     ],
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, 'public', 'index.html'),
+      favicon: path.resolve(__dirname, 'public', 'favicon.ico'),
+    }),
+  ],
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
   },
