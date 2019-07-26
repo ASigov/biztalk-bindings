@@ -1,5 +1,4 @@
 import express from 'express';
-import cors from 'cors';
 import multer from 'multer';
 import debug from 'debug';
 import { Application, SendPort, ReceiveLocation } from '../shared/bindings';
@@ -20,7 +19,6 @@ app.use(express.static('node_modules/bs-custom-file-input/dist'));
 
 app.post(
   '/upload',
-  cors(),
   formDataHandler.single('file'),
   async (req, res): Promise<void> => {
     const context = await parseBindings(req.file.buffer);
