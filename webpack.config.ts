@@ -1,6 +1,7 @@
 import path from 'path';
 import { Configuration } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import AddAssetHtmlPlugin from 'add-asset-html-webpack-plugin';
 
 const config: Configuration = {
   mode: 'development',
@@ -29,6 +30,61 @@ const config: Configuration = {
       template: path.resolve(__dirname, 'public', 'index.html'),
       favicon: path.resolve(__dirname, 'public', 'favicon.ico'),
     }),
+    new AddAssetHtmlPlugin([
+      {
+        filepath: path.resolve(
+          __dirname,
+          'node_modules',
+          'bootstrap',
+          'dist',
+          'css',
+          'bootstrap.min.css',
+        ),
+        typeOfAsset: 'css',
+      },
+      {
+        filepath: path.resolve(
+          'node_modules',
+          'jquery',
+          'dist',
+          'jquery.slim.min.js',
+        ),
+      },
+      {
+        filepath: path.resolve(
+          'node_modules',
+          'popper.js',
+          'dist',
+          'umd',
+          'popper.min.js',
+        ),
+      },
+      {
+        filepath: path.resolve(
+          'node_modules',
+          'bootstrap',
+          'dist',
+          'js',
+          'bootstrap.min.js',
+        ),
+      },
+      {
+        filepath: path.resolve(
+          'node_modules',
+          'react',
+          'umd',
+          'react.development.js',
+        ),
+      },
+      {
+        filepath: path.resolve(
+          'node_modules',
+          'react-dom',
+          'umd',
+          'react-dom.development.js',
+        ),
+      },
+    ]),
   ],
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
