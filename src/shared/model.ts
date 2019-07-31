@@ -1,11 +1,5 @@
-export interface ReceiveLocation {
-  name: string;
-  address: string;
-}
-
-export interface SendPort {
-  name: string;
-  address: string;
+export interface Bindings {
+  applications: Application[];
 }
 
 export interface Application {
@@ -14,6 +8,12 @@ export interface Application {
   sendPorts: SendPort[];
 }
 
-export interface Bindings {
-  applications: Application[];
+export interface ReceiveLocation {
+  name: string;
+  address: string;
+}
+
+export interface SendPort {
+  name: string;
+  address: string;
 }
