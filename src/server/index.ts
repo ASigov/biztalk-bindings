@@ -29,6 +29,7 @@ app.post(
               .map(
                 (sp): SendPort => ({
                   name: sp.name,
+                  address: sp.address,
                 }),
               )
               .sort((left, right): number =>

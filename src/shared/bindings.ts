@@ -3,11 +3,11 @@ export interface HasName {
 }
 
 export interface ReceiveLocation extends HasName {
-  adapterName?: string;
+  address: string;
 }
 
 export interface SendPort extends HasName {
-  adapterName?: string;
+  address: string;
 }
 
 export interface Application extends HasName {

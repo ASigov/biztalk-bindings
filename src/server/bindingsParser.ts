@@ -16,18 +16,24 @@ class ReceivePort {
 class ReceiveLocation {
   public name: string;
 
+  public address: string;
+
   public constructor(name: string) {
     this.name = name;
+    this.address = '';
   }
 }
 
 class SendPort {
   public name: string;
 
+  public address: string;
+
   public applicationName: string;
 
   public constructor(name: string) {
     this.name = name;
+    this.address = '';
     this.applicationName = '';
   }
 }
@@ -106,6 +112,16 @@ const parseBindings = async (data: Buffer): Promise<BindingsContext> =>
           context.currentReceivePort
         ) {
           context.currentReceivePort.applicationName = text;
+        } else if (
+          context.pathEndsWith(['ReceiveLocation', 'Address']) &&
+          context.currentReceiveLocation
+        ) {
+          context.currentReceiveLocation.address = text;
+        } else if (
+          context.pathEndsWith(['SendPort', 'PrimaryTransport', 'Address']) &&
+          context.currentSendPort
+        ) {
+          context.currentSendPort.address = text;
         }
       })
       .on('end', (): void => {
