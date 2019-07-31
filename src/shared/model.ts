@@ -1,16 +1,15 @@
-export interface HasName {
+export interface ReceiveLocation {
   name: string;
-}
-
-export interface ReceiveLocation extends HasName {
   address: string;
 }
 
-export interface SendPort extends HasName {
+export interface SendPort {
+  name: string;
   address: string;
 }
 
-export interface Application extends HasName {
+export interface Application {
+  name: string;
   receiveLocations: ReceiveLocation[];
   sendPorts: SendPort[];
 }

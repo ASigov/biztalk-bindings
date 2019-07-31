@@ -6,9 +6,10 @@ import {
   Application,
   SendPort,
   ReceiveLocation,
-} from '../../shared/bindings';
-import Dropdown from './Dropdown';
-import Listbox from './Listbox';
+} from '../../shared/model';
+import ApplicationPicker from './ApplicationPicker';
+import SendPortList from './SendPortList';
+import ReceiveLocationList from './ReceiveLocationList';
 import OpenFile from './OpenFile';
 
 const App: React.FC = (): JSX.Element => {
@@ -20,15 +21,10 @@ const App: React.FC = (): JSX.Element => {
   const handleOpenFile = async (file: File): Promise<void> => {
     const data = new FormData();
     data.append('file', file);
-    try {
-      const url = `${window.location.origin}/upload`;
-      const response = await axios.post(url, data);
-      const newBindings = response.data as Bindings;
-      setBindings(newBindings);
-      setSelectedApp(newBindings && newBindings.applications[0]);
-    } catch (error) {
-      console.log(error);
-    }
+    const response = await axios.post(`${window.location.origin}/upload`, data);
+    const newBindings = response.data as Bindings;
+    setBindings(newBindings);
+    setSelectedApp(newBindings && newBindings.applications[0]);
   };
 
   return (
@@ -45,9 +41,9 @@ const App: React.FC = (): JSX.Element => {
       </div>
       <div className="row">
         <div className="col">
-          <Dropdown
-            items={bindings && bindings.applications}
-            selectedItem={selectedApp}
+          <ApplicationPicker
+            apps={bindings && bindings.applications}
+            selectedApp={selectedApp}
             onSelectionChanged={setSelectedApp}
           />
         </div>
@@ -59,9 +55,9 @@ const App: React.FC = (): JSX.Element => {
       </div>
       <div className="row">
         <div className="col">
-          <Listbox
-            items={selectedApp && selectedApp.sendPorts}
-            selectedItems={selectedSPs}
+          <SendPortList
+            sendPorts={selectedApp && selectedApp.sendPorts}
+            selectedSendPorts={selectedSPs}
             onSelectionChanged={setSelectedSPs}
           />
         </div>
@@ -73,9 +69,9 @@ const App: React.FC = (): JSX.Element => {
       </div>
       <div className="row">
         <div className="col">
-          <Listbox
-            items={selectedApp && selectedApp.receiveLocations}
-            selectedItems={selectedRLs}
+          <ReceiveLocationList
+            receiveLocations={selectedApp && selectedApp.receiveLocations}
+            selectedReceiveLocations={selectedRLs}
             onSelectionChanged={setSelectedRLs}
           />
         </div>

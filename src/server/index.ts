@@ -1,7 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import debug from 'debug';
-import { Application, SendPort, ReceiveLocation } from '../shared/bindings';
+import { Application, SendPort, ReceiveLocation } from '../shared/model';
 import parseBindings from './bindingsParser';
 
 const port = process.env.PORT ? process.env.PORT : 3000;
