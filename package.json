@@ -22,7 +22,7 @@
     "lint": "eslint --ext .ts --ext .tsx --ext .js .",
     "build-server-watch": "tsc --watch --preserveWatchOutput --pretty --project tsconfig.json",
     "build-client-watch": "webpack --watch --color",
-    "start-watch": "nodemon --watch dist/ --ext js --delay 2 dist/server/index.js"
+    "start-watch": "nodemon --inspect --watch dist/ --ext js --delay 2 dist/server/index.js"
   },
   "dependencies": {
     "axios": "^0.19.0",
@@ -36,7 +36,8 @@
     "npm-run-all": "^4.1.5",
     "popper.js": "^1.15.0",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "xml-js": "^1.6.11"
   },
   "devDependencies": {
     "@types/cors": "^2.8.5",

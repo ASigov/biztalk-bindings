@@ -71,6 +71,18 @@ export default class ParserState {
     }
   }
 
+  public setSPTransportTypeData(data: string): void {
+    if (this.currentSendPort) {
+      this.currentSendPort.transportTypeData += data;
+    }
+  }
+
+  public setRLTransportTypeData(data: string): void {
+    if (this.currentReceiveLocation) {
+      this.currentReceiveLocation.transportTypeData += data;
+    }
+  }
+
   public pathPush(name: string): void {
     this.path.push(name);
   }

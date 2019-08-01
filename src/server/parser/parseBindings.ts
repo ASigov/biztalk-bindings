@@ -39,6 +39,10 @@ const handleText = (state: ParserState, text: string): void => {
     state.setSPAddress(text);
   } else if (state.pathEndsWith('ReceiveLocation', 'Address')) {
     state.setRLAddress(text);
+  } else if (state.pathEndsWith('TransportTypeData')) {
+    state.setSPTransportTypeData(text);
+  } else if (state.pathEndsWith('ReceiveLocationTransportTypeData')) {
+    state.setRLTransportTypeData(text);
   }
 };
 
