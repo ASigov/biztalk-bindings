@@ -8,50 +8,39 @@ interface ReceiveLocationListProps {
 }
 
 const ReceiveLocationList = (props: ReceiveLocationListProps): JSX.Element => {
-  const {
-    receiveLocations,
-    selectedReceiveLocations,
-    onSelectionChanged,
-  } = props;
-
-  const handleClick = (
-    receiveLocation: ReceiveLocation,
-    isSelected: boolean,
-  ): void => {
-    if (isSelected) {
-      onSelectionChanged(
-        selectedReceiveLocations.filter(
-          (i): boolean => i.name !== receiveLocation.name,
-        ),
-      );
-    } else {
-      onSelectionChanged(selectedReceiveLocations.concat(receiveLocation));
-    }
-  };
+  const { receiveLocations, selectedReceiveLocations } = props;
 
   return (
     <div className="list-group">
       {receiveLocations &&
         receiveLocations.map(
-          (receiveLocation): JSX.Element => {
-            const isSelected = selectedReceiveLocations.includes(
-              receiveLocation,
-            );
+          (rl, id): JSX.Element => {
+            const isSelected = selectedReceiveLocations.includes(rl);
             return (
-              <button
-                className={`list-group-item list-group-item-action${
-                  isSelected ? ' active' : ''
-                }`}
-                type="button"
-                key={receiveLocation.name}
-                onClick={(): void => handleClick(receiveLocation, isSelected)}
-              >
-                {receiveLocation.name}
-                <br />
-                <small>
-                  {receiveLocation.adapterName} - {receiveLocation.address}
-                </small>
-              </button>
+              <>
+                <button
+                  className={`list-group-item list-group-item-action${
+                    isSelected ? ' active' : ''
+                  }`}
+                  type="button"
+                  key={rl.name}
+                  data-toggle="collapse"
+                  data-target={`#rl-details-${id}`}
+                  aria-expanded="false"
+                  aria-controls={`rl-details-${id}`}
+                >
+                  {rl.name}
+                  <br />
+                  <small>
+                    {rl.adapterName} - {rl.address}
+                  </small>
+                </button>
+                <div className="collapse" id={`rl-details-${id}`}>
+                  <div className="card card-body">
+                    <pre>{JSON.stringify(rl.adapterConfig, null, 2)}</pre>
+                  </div>
+                </div>
+              </>
             );
           },
         )}
