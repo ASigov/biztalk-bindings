@@ -14,6 +14,14 @@ const handleStartElement = (
     state.addReceivePort(attr.Name);
   } else if (name === 'ReceiveLocation' && attr.Name) {
     state.addReceiveLocation(attr.Name);
+  } else if (
+    name === 'TransportType' &&
+    state.pathEndsWith('PrimaryTransport') &&
+    attr.Name
+  ) {
+    state.setSPAdapterName(attr.Name);
+  } else if (name === 'ReceiveLocationTransportType' && attr.Name) {
+    state.setRLAdapterName(attr.Name);
   }
   state.pathPush(name);
 };
@@ -23,13 +31,13 @@ const handleEndElement = (state: ParserState): void => {
 };
 
 const handleText = (state: ParserState, text: string): void => {
-  if (state.pathEndsWith(['SendPort', 'ApplicationName'])) {
+  if (state.pathEndsWith('SendPort', 'ApplicationName')) {
     state.setSPApplicationName(text);
-  } else if (state.pathEndsWith(['ReceivePort', 'ApplicationName'])) {
+  } else if (state.pathEndsWith('ReceivePort', 'ApplicationName')) {
     state.setRPApplicationName(text);
-  } else if (state.pathEndsWith(['PrimaryTransport', 'Address'])) {
+  } else if (state.pathEndsWith('PrimaryTransport', 'Address')) {
     state.setSPAddress(text);
-  } else if (state.pathEndsWith(['ReceiveLocation', 'Address'])) {
+  } else if (state.pathEndsWith('ReceiveLocation', 'Address')) {
     state.setRLAddress(text);
   }
 };

@@ -24,6 +24,7 @@ const mapSendPorts = (
       (sp): SendPort => ({
         name: sp.name,
         address: sp.address,
+        adapterName: sp.adapterName,
       }),
     )
     .sort((left, right): number => left.name.localeCompare(right.name));
@@ -41,6 +42,7 @@ const mapReceiveLocations = (
       (rl): ReceiveLocation => ({
         name: rl.name,
         address: rl.address,
+        adapterName: rl.adapterName,
       }),
     )
     .sort((left, right): number => left.name.localeCompare(right.name));

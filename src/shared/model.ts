@@ -11,9 +11,11 @@ export interface Application {
 export interface ReceiveLocation {
   name: string;
   address: string;
+  adapterName: string;
 }
 
 export interface SendPort {
   name: string;
   address: string;
+  adapterName: string;
 }

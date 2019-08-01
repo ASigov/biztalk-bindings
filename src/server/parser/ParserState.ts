@@ -59,6 +59,18 @@ export default class ParserState {
     }
   }
 
+  public setSPAdapterName(name: string): void {
+    if (this.currentSendPort) {
+      this.currentSendPort.adapterName = name;
+    }
+  }
+
+  public setRLAdapterName(name: string): void {
+    if (this.currentReceiveLocation) {
+      this.currentReceiveLocation.adapterName = name;
+    }
+  }
+
   public pathPush(name: string): void {
     this.path.push(name);
   }
@@ -67,7 +79,7 @@ export default class ParserState {
     return this.path.pop();
   }
 
-  public pathEndsWith(path: string[]): boolean {
+  public pathEndsWith(...path: string[]): boolean {
     if (this.path.length < path.length) {
       return false;
     }
