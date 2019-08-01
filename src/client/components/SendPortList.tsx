@@ -36,6 +36,10 @@ const SendPortList = (props: SendPortListProps): JSX.Element => {
                 onClick={(): void => handleClick(sendPort, isSelected)}
               >
                 {sendPort.name}
+                <br />
+                <small>
+                  {sendPort.adapterName} - {sendPort.address}
+                </small>
               </button>
             );
           },

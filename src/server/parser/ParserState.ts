@@ -5,11 +5,11 @@ import ReceivePortState from './ReceivePortState';
 export default class ParserState {
   private path: string[] = [];
 
-  private currentReceivePort: ReceivePortState | undefined;
+  private currentReceivePort?: ReceivePortState;
 
-  private currentReceiveLocation: ReceiveLocationState | undefined;
+  private currentReceiveLocation?: ReceiveLocationState;
 
-  private currentSendPort: SendPortState | undefined;
+  private currentSendPort?: SendPortState;
 
   public receivePorts: ReceivePortState[] = [];
 

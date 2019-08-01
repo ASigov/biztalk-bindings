@@ -47,6 +47,10 @@ const ReceiveLocationList = (props: ReceiveLocationListProps): JSX.Element => {
                 onClick={(): void => handleClick(receiveLocation, isSelected)}
               >
                 {receiveLocation.name}
+                <br />
+                <small>
+                  {receiveLocation.adapterName} - {receiveLocation.address}
+                </small>
               </button>
             );
           },
