@@ -1,12 +1,11 @@
 import express from 'express';
 import multer from 'multer';
-import debug from 'debug';
-import parseBindings from './parser/parseBindings';
+import parse from './parser';
+import map from './mapper';
 
-const port = process.env.PORT ? process.env.PORT : 3000;
+const port = process.env.PORT || 3000;
 const app = express();
 const formDataHandler = multer();
-const log = debug('app');
 
 app.use(express.static('dist/client'));
 
@@ -14,9 +13,10 @@ app.post(
   '/upload',
   formDataHandler.single('file'),
   async (req, res): Promise<void> => {
-    const bindings = await parseBindings(req.file.buffer);
+    const state = await parse(req.file.buffer);
+    const bindings = map(state);
     res.json(bindings);
   },
 );
 
-app.listen(port, (): void => log(`Listening on ${port} port ...`));
+app.listen(port);

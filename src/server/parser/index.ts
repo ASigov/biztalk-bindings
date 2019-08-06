@@ -1,7 +1,5 @@
 import { Parser, XmlAttributes } from 'node-expat';
-import { Bindings } from '../../shared/model';
 import ParserState from './ParserState';
-import mapParserState from './mapParserState';
 
 const handleStartElement = (
   state: ParserState,
@@ -46,8 +44,8 @@ const handleText = (state: ParserState, text: string): void => {
   }
 };
 
-const parseBindings = (data: Buffer): Promise<Bindings> => {
-  return new Promise<Bindings>((resolve, reject): void => {
+const parse = (data: Buffer): Promise<ParserState> => {
+  return new Promise<ParserState>((resolve, reject): void => {
     const parser = new Parser('UTF-8');
     const state = new ParserState();
     parser
@@ -61,8 +59,7 @@ const parseBindings = (data: Buffer): Promise<Bindings> => {
         handleText(state, text);
       })
       .on('end', (): void => {
-        const bindings = mapParserState(state);
-        resolve(bindings);
+        resolve(state);
       })
       .on('error', (error): void => {
         reject(error);
@@ -72,4 +69,4 @@ const parseBindings = (data: Buffer): Promise<Bindings> => {
   });
 };
 
-export default parseBindings;
+export default parse;

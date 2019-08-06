@@ -12,40 +12,40 @@ export interface ReceiveLocation {
   name: string;
   address: string;
   adapterName: string;
-  adapterConfig: ReceiveAdapterConfig;
+  adapterConfig: AdapterConfigReceive;
 }
 
 export interface SendPort {
   name: string;
   address: string;
   adapterName: string;
-  adapterConfig: SendAdapterConfig;
+  adapterConfig: AdapterConfigSend;
 }
 
-export type ReceiveAdapterConfig =
-  | FileReceiveConfig
-  | NSoftwareFtpReceiveConfig
-  | NSoftwareSftpReceiveConfig
-  | ScheduleReceiveConfig
+export type AdapterConfigReceive =
+  | AdapterConfigReceiveFile
+  | AdapterConfigReceiveNSoftwareFtp
+  | AdapterConfigReceiveNSoftwareSftp
+  | AdapterConfigReceiveSchedule
   | undefined;
 
-export type SendAdapterConfig =
-  | FileSendConfig
-  | NSoftwareFtpSendConfig
-  | NSoftwareSftpSendConfig
+export type AdapterConfigSend =
+  | AdapterConfigSendFile
+  | AdapterConfigSendNSoftwareFtp
+  | AdapterConfigSendNSoftwareSftp
   | undefined;
 
-export interface FileReceiveConfig {
+export interface AdapterConfigReceiveFile {
   path: string;
   fileMask: string;
 }
 
-export interface FileSendConfig {
+export interface AdapterConfigSendFile {
   path: string;
   fileName: string;
 }
 
-export interface NSoftwareFtpReceiveConfig {
+export interface AdapterConfigReceiveNSoftwareFtp {
   path: string;
   fileMask: string;
   server: string;
@@ -55,7 +55,7 @@ export interface NSoftwareFtpReceiveConfig {
   pollingInterval: number;
 }
 
-export interface NSoftwareFtpSendConfig {
+export interface AdapterConfigSendNSoftwareFtp {
   path: string;
   fileName: string;
   server: string;
@@ -64,7 +64,7 @@ export interface NSoftwareFtpSendConfig {
   ssoAffiliate: string;
 }
 
-export interface NSoftwareSftpReceiveConfig {
+export interface AdapterConfigReceiveNSoftwareSftp {
   path: string;
   fileMask: string;
   server: string;
@@ -74,7 +74,7 @@ export interface NSoftwareSftpReceiveConfig {
   pollingInterval: number;
 }
 
-export interface NSoftwareSftpSendConfig {
+export interface AdapterConfigSendNSoftwareSftp {
   path: string;
   fileName: string;
   server: string;
@@ -83,7 +83,7 @@ export interface NSoftwareSftpSendConfig {
   ssoAffiliate: string;
 }
 
-export interface ScheduleReceiveConfig {
+export interface AdapterConfigReceiveSchedule {
   name: string;
   scheduleType: string;
   scheduleConfig: ScheduleConfig;
