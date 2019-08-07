@@ -1,49 +1,49 @@
 import * as model from '../../shared/model';
 import ReceiveLocationState from '../parser/ReceiveLocationState';
-import parseAdapterConfig from './parseAdapterConfig';
+import parseTransportTypeData from '../parser/parseTransportTypeData';
 
 const mapTimeSpanScheduleConfig = (
   schedule: any,
 ): model.TimeSpanScheduleConfig => {
   return {
-    interval: schedule.Interval.text,
+    interval: schedule.Interval,
   };
 };
 
 const mapDailyScheduleConfig = (schedule: any): model.DayScheduleConfig => {
   return {
-    interval: schedule.Interval.text,
-    scheduledDays: schedule.ScheduledDays.text,
+    interval: schedule.Interval,
+    scheduledDays: schedule.ScheduledDays,
   };
 };
 
 const mapWeeklyScheduleConfig = (schedule: any): model.WeekScheduleConfig => {
   return {
-    interval: schedule.Interval.text,
-    scheduledDays: schedule.ScheduledDays.text,
+    interval: schedule.Interval,
+    scheduledDays: schedule.ScheduledDays,
   };
 };
 
 const mapMonthlyScheduleConfig = (schedule: any): model.MonthScheduleConfig => {
   return {
-    day: schedule.Day.text,
-    ordinal: schedule.Ordinal.text,
-    weekDay: schedule.WeekDay.text,
-    scheduledMonths: schedule.ScheduledMonths.text,
+    day: schedule.Day,
+    ordinal: schedule.Ordinal,
+    weekDay: schedule.WeekDay,
+    scheduledMonths: schedule.ScheduledMonths,
   };
 };
 
 const mapScheduleConfig = (schedule: any): model.ScheduleConfig => {
-  if (schedule.attr['xsi:type'] === 'TimeSpanSchedule') {
+  if (schedule['@_type'] === 'TimeSpanSchedule') {
     return mapTimeSpanScheduleConfig(schedule);
   }
-  if (schedule.attr['xsi:type'] === 'DaySchedule') {
+  if (schedule['@_type'] === 'DaySchedule') {
     return mapDailyScheduleConfig(schedule);
   }
-  if (schedule.attr['xsi:type'] === 'WeekSchedule') {
+  if (schedule['@_type'] === 'WeekSchedule') {
     return mapWeeklyScheduleConfig(schedule);
   }
-  if (schedule.attr['xsi:type'] === 'MonthSchedule') {
+  if (schedule['@_type'] === 'MonthSchedule') {
     return mapMonthlyScheduleConfig(schedule);
   }
   return undefined;
@@ -52,10 +52,10 @@ const mapScheduleConfig = (schedule: any): model.ScheduleConfig => {
 const mapAdapterConfigReceiveSchedule = (
   state: ReceiveLocationState,
 ): model.AdapterConfigReceiveSchedule => {
-  const config = parseAdapterConfig(state.transportTypeData, true);
+  const config = parseTransportTypeData(state.transportTypeData);
   return {
-    name: config.config.name.text,
-    scheduleType: config.config.Schedule.attr['xsi:type'],
+    name: config.config.name,
+    scheduleType: config.config.Schedule['@_type'],
     scheduleConfig: mapScheduleConfig(config.config.Schedule),
   };
 };

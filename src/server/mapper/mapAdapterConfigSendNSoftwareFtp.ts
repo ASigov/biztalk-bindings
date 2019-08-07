@@ -1,18 +1,18 @@
 import SendPortState from '../parser/SendPortState';
 import { AdapterConfigSendNSoftwareFtp } from '../../shared/model';
-import parseAdapterConfig from './parseAdapterConfig';
+import parseTransportTypeData from '../parser/parseTransportTypeData';
 
 const mapAdapterConfigNSoftwareFtpSend = (
   state: SendPortState,
 ): AdapterConfigSendNSoftwareFtp => {
-  const config = parseAdapterConfig(state.transportTypeData);
+  const config = parseTransportTypeData(state.transportTypeData);
   return {
-    path: config.Config.RemotePath.text,
-    fileName: config.Config.RemoteFile.text,
-    server: config.Config.FTPServer.text,
-    port: config.Config.FTPPort.text,
-    userName: config.Config.User.text,
-    ssoAffiliate: config.Config.SSOAffiliate.text,
+    path: config.Config.RemotePath,
+    fileName: config.Config.RemoteFile,
+    server: config.Config.FTPServer,
+    port: config.Config.FTPPort,
+    userName: config.Config.User,
+    ssoAffiliate: config.Config.SSOAffiliate,
   };
 };
 

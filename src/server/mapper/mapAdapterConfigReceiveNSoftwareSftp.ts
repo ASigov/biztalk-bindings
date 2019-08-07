@@ -1,19 +1,19 @@
 import ReceiveLocationState from '../parser/ReceiveLocationState';
 import { AdapterConfigReceiveNSoftwareSftp } from '../../shared/model';
-import parseAdapterConfig from './parseAdapterConfig';
+import parseTransportTypeData from '../parser/parseTransportTypeData';
 
 const mapAdapterConfigReceiveNSoftwareSftp = (
   state: ReceiveLocationState,
 ): AdapterConfigReceiveNSoftwareSftp => {
-  const config = parseAdapterConfig(state.transportTypeData);
+  const config = parseTransportTypeData(state.transportTypeData);
   return {
-    path: config.Config.RemotePath.text,
-    fileMask: config.Config.FileMask.text,
-    server: config.Config.SSHHost.text,
-    port: config.Config.SSHPort.text,
-    userName: config.Config.SSHUser.text,
-    ssoAffiliate: config.Config.SSOAffiliate.text,
-    pollingInterval: config.Config.PollingInterval.text,
+    path: config.Config.RemotePath,
+    fileMask: config.Config.FileMask,
+    server: config.Config.SSHHost,
+    port: config.Config.SSHPort,
+    userName: config.Config.SSHUser,
+    ssoAffiliate: config.Config.SSOAffiliate,
+    pollingInterval: config.Config.PollingInterval,
   };
 };
 
