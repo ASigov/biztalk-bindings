@@ -1,12 +1,20 @@
 import parser from 'fast-xml-parser';
 import unescape from 'unescape';
 
-const parseTransportTypeData = (text: string): any => {
-  const customProps = parser.parse(text);
+interface TransportTypeData {
+  CustomProps: CustomProps;
+}
+
+interface CustomProps {
+  AdapterConfig: string;
+}
+
+const parseTransportTypeData = <T>(text: string): T => {
+  const customProps = parser.parse(text) as TransportTypeData;
   return parser.parse(unescape(customProps.CustomProps.AdapterConfig), {
     ignoreAttributes: false,
     ignoreNameSpace: true,
-  });
+  }) as T;
 };
 
 export default parseTransportTypeData;

@@ -90,27 +90,26 @@ export interface AdapterConfigReceiveSchedule {
 }
 
 export type ScheduleConfig =
-  | TimeSpanScheduleConfig
-  | DayScheduleConfig
-  | WeekScheduleConfig
-  | MonthScheduleConfig
-  | undefined;
+  | ScheduleConfigTimeSpan
+  | ScheduleConfigDaily
+  | ScheduleConfigWeekly
+  | ScheduleConfigMonthly;
 
-export interface TimeSpanScheduleConfig {
+export interface ScheduleConfigTimeSpan {
   interval: number;
 }
 
-export interface DayScheduleConfig {
-  interval: number;
-  scheduledDays: string;
-}
-
-export interface WeekScheduleConfig {
+export interface ScheduleConfigDaily {
   interval: number;
   scheduledDays: string;
 }
 
-export interface MonthScheduleConfig {
+export interface ScheduleConfigWeekly {
+  interval: number;
+  scheduledDays: string;
+}
+
+export interface ScheduleConfigMonthly {
   day: number;
   ordinal: string;
   weekDay: string;
