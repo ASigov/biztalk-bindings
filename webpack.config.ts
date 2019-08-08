@@ -47,7 +47,7 @@ const config: Configuration = {
           'node_modules',
           'jquery',
           'dist',
-          'jquery.slim.min.js',
+          'jquery.slim.min.*',
         ),
       },
       {
@@ -84,6 +84,17 @@ const config: Configuration = {
           'react-dom.development.js',
         ),
       },
+      {
+        filepath: path.resolve('node_modules', 'axios', 'dist', 'axios.min.*'),
+      },
+      {
+        filepath: path.resolve(
+          'node_modules',
+          'bs-custom-file-input',
+          'dist',
+          'bs-custom-file-input.min.js',
+        ),
+      },
     ]),
   ],
   resolve: {
@@ -92,6 +103,8 @@ const config: Configuration = {
   externals: {
     react: 'React',
     'react-dom': 'ReactDOM',
+    axios: 'axios',
+    'bs-custom-file-input': 'bsCustomFileInput',
   },
 };
 
