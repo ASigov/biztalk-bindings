@@ -4,11 +4,12 @@ import { Application } from '../../shared/model';
 interface ApplicationPickerProps {
   apps?: Application[];
   selectedApp?: Application;
-  onSelectionChanged: (item: Application) => void;
+  setSelectedApp: (item: Application) => void;
 }
 
 const ApplicationPicker = (props: ApplicationPickerProps): JSX.Element => {
-  const { apps, selectedApp, onSelectionChanged } = props;
+  const { apps, selectedApp, setSelectedApp } = props;
+
   return (
     <div className="dropdown">
       <button
@@ -29,7 +30,7 @@ const ApplicationPicker = (props: ApplicationPickerProps): JSX.Element => {
                 className="dropdown-item"
                 type="button"
                 key={app.name}
-                onClick={(): void => onSelectionChanged(app)}
+                onClick={(): void => setSelectedApp(app)}
               >
                 {app.name}
               </button>

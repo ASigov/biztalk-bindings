@@ -3,48 +3,38 @@ import { ReceiveLocation } from '../../shared/model';
 
 interface ReceiveLocationListProps {
   receiveLocations?: ReceiveLocation[];
-  selectedReceiveLocations: ReceiveLocation[];
-  onSelectionChanged: (selectedReceiveLocations: ReceiveLocation[]) => void;
 }
 
 const ReceiveLocationList = (props: ReceiveLocationListProps): JSX.Element => {
-  const { receiveLocations, selectedReceiveLocations } = props;
+  const { receiveLocations } = props;
 
   return (
-    <div className="list-group">
+    <ul className="list-group">
       {receiveLocations &&
         receiveLocations.map(
-          (rl, id): JSX.Element => {
-            const isSelected = selectedReceiveLocations.includes(rl);
+          (rl): JSX.Element => {
             return (
-              <>
-                <button
-                  className={`list-group-item list-group-item-action${
-                    isSelected ? ' active' : ''
-                  }`}
-                  type="button"
-                  key={rl.name}
-                  data-toggle="collapse"
-                  data-target={`#rl-details-${id}`}
-                  aria-expanded="false"
-                  aria-controls={`rl-details-${id}`}
-                >
-                  {rl.name}
-                  <br />
-                  <small>
-                    {rl.adapterName} - {rl.address}
-                  </small>
-                </button>
-                <div className="collapse" id={`rl-details-${id}`}>
-                  <div className="card card-body">
-                    <pre>{JSON.stringify(rl.adapterConfig, null, 2)}</pre>
+              <li className="list-group-item" key={rl.name}>
+                <div className="row">
+                  <div className="col overflow-hidden">
+                    {rl.name}
+                    <br />
+                    <small className="text-muted">{rl.address}</small>
+                  </div>
+                  <div className="col-auto align-self-center">
+                    <button className="btn btn-secondary mr-3" type="button">
+                      Edit
+                    </button>
+                    <button className="btn btn-secondary" type="button">
+                      Delete
+                    </button>
                   </div>
                 </div>
-              </>
+              </li>
             );
           },
         )}
-    </div>
+    </ul>
   );
 };
 

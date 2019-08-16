@@ -1,21 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import {
-  Bindings,
-  Application,
-  SendPort,
-  ReceiveLocation,
-} from '../../shared/model';
-import ApplicationPicker from './ApplicationPicker';
-import SendPortList from './SendPortList';
-import ReceiveLocationList from './ReceiveLocationList';
-import OpenFile from './OpenFile';
+import { Bindings, Application } from '../../shared/model';
+import ApplicationPanel from './ApplicationPanel';
+import SendPortsPanel from './SendPortsPanel';
+import ReceiveLocationsPanel from './ReceiveLocatoinsPanel';
+import LoadBindingsPanel from './LoadBindingsPanel';
+import GeneratePanel from './GeneratePanel';
 
-const App: React.FC = (): JSX.Element => {
+const App = (): JSX.Element => {
   const [bindings, setBindings] = useState<Bindings>();
   const [selectedApp, setSelectedApp] = useState<Application>();
-  const [selectedSPs, setSelectedSPs] = useState<SendPort[]>([]);
-  const [selectedRLs, setSelectedRLs] = useState<ReceiveLocation[]>([]);
 
   const handleOpenFile = async (file: File): Promise<void> => {
     const data = new FormData();
@@ -28,60 +22,17 @@ const App: React.FC = (): JSX.Element => {
 
   return (
     <div className="container">
-      <div className="row">
-        <div className="col mt-3">
-          <OpenFile label="Open bindings file" onFileOpen={handleOpenFile} />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col mt-3">
-          <h4>Application</h4>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col">
-          <ApplicationPicker
-            apps={bindings && bindings.applications}
-            selectedApp={selectedApp}
-            onSelectionChanged={setSelectedApp}
-          />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col mt-3">
-          <h4>Send Ports</h4>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col">
-          <SendPortList
-            sendPorts={selectedApp && selectedApp.sendPorts}
-            selectedSendPorts={selectedSPs}
-            onSelectionChanged={setSelectedSPs}
-          />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col mt-3">
-          <h4>Receive Locations</h4>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col">
-          <ReceiveLocationList
-            receiveLocations={selectedApp && selectedApp.receiveLocations}
-            selectedReceiveLocations={selectedRLs}
-            onSelectionChanged={setSelectedRLs}
-          />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col mt-3">
-          <button className="btn btn-primary btn-lg btn-block" type="button">
-            {`Generate ${selectedApp ? selectedApp.name : ''} bindings`}
-          </button>
-        </div>
-      </div>
+      <LoadBindingsPanel onFileOpen={handleOpenFile} />
+      <ApplicationPanel
+        apps={bindings && bindings.applications}
+        selectedApp={selectedApp}
+        setSelectedApp={setSelectedApp}
+      />
+      <SendPortsPanel sendPorts={selectedApp && selectedApp.sendPorts} />
+      <ReceiveLocationsPanel
+        receiveLocations={selectedApp && selectedApp.receiveLocations}
+      />
+      <GeneratePanel appName={selectedApp ? selectedApp.name : ''} />
     </div>
   );
 };

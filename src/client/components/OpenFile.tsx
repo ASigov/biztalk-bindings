@@ -6,14 +6,18 @@ interface OpenFileProps {
   onFileOpen: (file: File) => void;
 }
 
-const OpenFile = (props: OpenFileProps): JSX.Element => {
-  const { label, onFileOpen } = props;
+const useBsCustomFileInput = (): void => {
   useEffect((): (() => void) => {
     bsCustomFileInput.init();
     return (): void => bsCustomFileInput.destroy();
   }, []);
+};
 
-  const handleInputFile = (
+const OpenFile = (props: OpenFileProps): JSX.Element => {
+  const { label, onFileOpen } = props;
+  useBsCustomFileInput();
+
+  const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
   ): void => {
     if (event.target.files) {
@@ -25,11 +29,11 @@ const OpenFile = (props: OpenFileProps): JSX.Element => {
     <div className="custom-file">
       <input
         className="custom-file-input"
-        id="inputGroupFile01"
+        id="input-file"
         type="file"
-        onChange={handleInputFile}
+        onChange={handleInputChange}
       />
-      <label className="custom-file-label" htmlFor="inputGroupFile01">
+      <label className="custom-file-label" htmlFor="input-file">
         {label}
       </label>
     </div>
