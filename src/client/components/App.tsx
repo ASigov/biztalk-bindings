@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Bindings, Application } from '../../shared/model';
-import ApplicationPanel from './ApplicationPanel';
+import ApplicationsPanel from './ApplicationsPanel';
 import SendPortsPanel from './SendPortsPanel';
 import ReceiveLocationsPanel from './ReceiveLocatoinsPanel';
-import LoadBindingsPanel from './LoadBindingsPanel';
+import OpenBindingsFilePanel from './OpenBindingsFilePanel';
 import GeneratePanel from './GeneratePanel';
 
 const App = (): JSX.Element => {
   const [bindings, setBindings] = useState<Bindings>();
   const [selectedApp, setSelectedApp] = useState<Application>();
 
-  const handleOpenFile = async (file: File): Promise<void> => {
+  const handleFileOpen = async (file: File): Promise<void> => {
     const data = new FormData();
     data.append('file', file);
     const response = await axios.post(`${window.location.origin}/upload`, data);
@@ -22,11 +22,11 @@ const App = (): JSX.Element => {
 
   return (
     <div className="container">
-      <LoadBindingsPanel onFileOpen={handleOpenFile} />
-      <ApplicationPanel
+      <OpenBindingsFilePanel onFileOpen={handleFileOpen} />
+      <ApplicationsPanel
         apps={bindings && bindings.applications}
         selectedApp={selectedApp}
-        setSelectedApp={setSelectedApp}
+        onSelectedAppChange={setSelectedApp}
       />
       <SendPortsPanel sendPorts={selectedApp && selectedApp.sendPorts} />
       <ReceiveLocationsPanel

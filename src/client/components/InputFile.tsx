@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import bsCustomFileInput from 'bs-custom-file-input';
 
 interface InputFileProps {
+  id: string;
   label: string;
   onChange: (file: File) => void;
 }
@@ -14,7 +15,7 @@ const useBsCustomFileInput = (): void => {
 };
 
 const InputFile = (props: InputFileProps): JSX.Element => {
-  const { label, onChange } = props;
+  const { id, label, onChange } = props;
   useBsCustomFileInput();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -27,11 +28,11 @@ const InputFile = (props: InputFileProps): JSX.Element => {
     <div className="custom-file">
       <input
         className="custom-file-input"
-        id="input-file"
+        id={id}
         type="file"
         onChange={handleChange}
       />
-      <label className="custom-file-label" htmlFor="input-file">
+      <label className="custom-file-label" htmlFor={id}>
         {label}
       </label>
     </div>
