@@ -47,7 +47,7 @@ const config: Configuration = {
           'node_modules',
           'jquery',
           'dist',
-          'jquery.slim.min.*',
+          'jquery.slim.min.js',
         ),
       },
       {
@@ -85,7 +85,7 @@ const config: Configuration = {
         ),
       },
       {
-        filepath: path.resolve('node_modules', 'axios', 'dist', 'axios.min.*'),
+        filepath: path.resolve('node_modules', 'axios', 'dist', 'axios.min.js'),
       },
       {
         filepath: path.resolve(
