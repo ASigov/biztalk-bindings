@@ -1,23 +1,23 @@
 import React from 'react';
 import { SendPort } from '../../shared/model';
+import SendPortListItem from './SendPortListItem';
 
 interface SendPortListProps {
-  sendPorts?: SendPort[];
+  sps?: SendPort[];
+  onDelete: (sp: SendPort) => void;
 }
 
 const SendPortList = (props: SendPortListProps): JSX.Element => {
-  const { sendPorts } = props;
+  const { sps, onDelete } = props;
 
   return (
     <ul className="list-group">
-      {sendPorts &&
-        sendPorts.map(
+      {sps &&
+        sps.map(
           (sp): JSX.Element => {
             return (
               <li className="list-group-item" key={sp.name}>
-                {sp.name}
-                <br />
-                <small className="text-muted">{sp.address}</small>
+                <SendPortListItem sp={sp} onDelete={onDelete} />
               </li>
             );
           },

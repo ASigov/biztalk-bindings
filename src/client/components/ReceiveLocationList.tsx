@@ -1,35 +1,23 @@
 import React from 'react';
 import { ReceiveLocation } from '../../shared/model';
+import ReceiveLocationListItem from './ReceiveLocationListItem';
 
 interface ReceiveLocationListProps {
-  receiveLocations?: ReceiveLocation[];
+  rls?: ReceiveLocation[];
+  onDelete: (rl: ReceiveLocation) => void;
 }
 
 const ReceiveLocationList = (props: ReceiveLocationListProps): JSX.Element => {
-  const { receiveLocations } = props;
+  const { rls, onDelete } = props;
 
   return (
     <ul className="list-group">
-      {receiveLocations &&
-        receiveLocations.map(
+      {rls &&
+        rls.map(
           (rl): JSX.Element => {
             return (
               <li className="list-group-item" key={rl.name}>
-                <div className="row">
-                  <div className="col overflow-hidden">
-                    {rl.name}
-                    <br />
-                    <small className="text-muted">{rl.address}</small>
-                  </div>
-                  <div className="col-auto align-self-center">
-                    <button className="btn btn-secondary mr-3" type="button">
-                      Edit
-                    </button>
-                    <button className="btn btn-secondary" type="button">
-                      Delete
-                    </button>
-                  </div>
-                </div>
+                <ReceiveLocationListItem rl={rl} onDelete={onDelete} />
               </li>
             );
           },
