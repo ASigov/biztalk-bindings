@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import FileSaver from 'file-saver';
 import {
   Bindings,
   Application,
@@ -30,7 +31,7 @@ const App = (): JSX.Element => {
       (rl): boolean => !deletedRLs.includes(rl.name),
     );
 
-  const handleFileOpen = async (file: File): Promise<void> => {
+  const handleOpenFile = async (file: File): Promise<void> => {
     const data = new FormData();
     data.append('file', file);
     const response = await axios.post(`${window.location.origin}/upload`, data);
@@ -39,7 +40,7 @@ const App = (): JSX.Element => {
     setSelectedApp(newBindings && newBindings.applications[0]);
   };
 
-  const handleSelectedAppChange = (app: Application): void => {
+  const handleSelectApp = (app: Application): void => {
     setSelectedApp(app);
     setDeletedSPs([]);
     setDeletedRLs([]);
@@ -55,17 +56,33 @@ const App = (): JSX.Element => {
     setDeletedRLs(newDeletedRLs);
   };
 
+  const handleGenerate = async (): Promise<void> => {
+    if (selectedApp && receiveLocations && sendPorts) {
+      const payload: Application = {
+        name: selectedApp.name,
+        receiveLocations,
+        sendPorts,
+      };
+      const response = await axios.post(
+        `${window.location.origin}/generate`,
+        payload,
+        { responseType: 'blob' },
+      );
+      await FileSaver.saveAs(response.data, 'temp.xml');
+    }
+  };
+
   return (
     <div className="container">
-      <OpenBindingsFilePanel onFileOpen={handleFileOpen} />
+      <OpenBindingsFilePanel onOpenFile={handleOpenFile} />
       <ApplicationsPanel
         apps={apps}
         selectedApp={selectedApp}
-        onSelectedAppChange={handleSelectedAppChange}
+        onSelect={handleSelectApp}
       />
       <SendPortsPanel sps={sendPorts} onDelete={handleDeleteSP} />
       <ReceiveLocationsPanel rls={receiveLocations} onDelete={handleDeleteRL} />
-      <GeneratePanel appName={selectedApp ? selectedApp.name : ''} />
+      <GeneratePanel app={selectedApp} onGenerate={handleGenerate} />
     </div>
   );
 };

@@ -5,11 +5,11 @@ import Dropdown from './Dropdown';
 interface ApplicationPanelProps {
   apps?: Application[];
   selectedApp?: Application;
-  onSelectedAppChange: (app: Application) => void;
+  onSelect: (app: Application) => void;
 }
 
 const ApplicationsPanel = (props: ApplicationPanelProps): JSX.Element => {
-  const { apps, selectedApp, onSelectedAppChange } = props;
+  const { apps, selectedApp, onSelect } = props;
 
   const formatApp = (app: Application): string => app.name;
 
@@ -26,7 +26,7 @@ const ApplicationsPanel = (props: ApplicationPanelProps): JSX.Element => {
             id="apps-dropdown"
             items={apps}
             selectedItem={selectedApp}
-            onSelect={onSelectedAppChange}
+            onSelect={onSelect}
             format={formatApp}
           />
         </div>

@@ -2,13 +2,13 @@ import React from 'react';
 import InputFile from './InputFile';
 
 interface OpenBindingsFilePanelProps {
-  onFileOpen: (file: File) => void;
+  onOpenFile: (file: File) => void;
 }
 
 const OpenBindingsFilePanel = (
   props: OpenBindingsFilePanelProps,
 ): JSX.Element => {
-  const { onFileOpen } = props;
+  const { onOpenFile } = props;
 
   return (
     <div className="row">
@@ -16,7 +16,7 @@ const OpenBindingsFilePanel = (
         <InputFile
           id="bindings-input-file"
           label="Open bindings file"
-          onChange={onFileOpen}
+          onChange={onOpenFile}
         />
       </div>
     </div>
