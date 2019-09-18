@@ -1,7 +1,7 @@
 import ParserState from '../parser/ParserState';
 import { Application } from '../../shared/model';
 import mapSendPorts from './mapSendPorts';
-import mapReceiveLocations from './mapReceiveLocations';
+import mapReceivePorts from './mapReceivePorts';
 
 const getApplicationNames = (state: ParserState): string[] => {
   return state.receivePorts
@@ -16,7 +16,7 @@ const mapApplications = (state: ParserState): Application[] => {
       (name): Application => ({
         name,
         sendPorts: mapSendPorts(state, name),
-        receiveLocations: mapReceiveLocations(state, name),
+        receivePorts: mapReceivePorts(state, name),
       }),
     )
     .sort((left, right): number => left.name.localeCompare(right.name));

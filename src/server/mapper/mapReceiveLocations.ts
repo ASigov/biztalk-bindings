@@ -1,16 +1,11 @@
-import ParserState from '../parser/ParserState';
 import { ReceiveLocation } from '../../shared/model';
-import ReceiveLocationState from '../parser/ReceiveLocationState';
 import mapAdapterConfigReceive from './mapAdapterConfigReceive';
+import ReceivePortState from '../parser/ReceivePortState';
 
 const mapReceiveLocations = (
-  state: ParserState,
-  applicationName: string,
+  receivePort: ReceivePortState,
 ): ReceiveLocation[] => {
-  return state.receivePorts
-    .filter((rp): boolean => rp.applicationName === applicationName)
-    .map((rp): ReceiveLocationState[] => rp.receiveLocations)
-    .reduce((prev, curr): ReceiveLocationState[] => prev.concat(curr), [])
+  return receivePort.receiveLocations
     .map(
       (rl): ReceiveLocation => ({
         name: rl.name,

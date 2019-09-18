@@ -4,6 +4,7 @@ import FileSaver from 'file-saver';
 import {
   Bindings,
   Application,
+  ReceivePort,
   ReceiveLocation,
   SendPort,
 } from '../../shared/model';
@@ -27,9 +28,10 @@ const App = (): JSX.Element => {
     );
   const receiveLocations =
     selectedApp &&
-    selectedApp.receiveLocations.filter(
-      (rl): boolean => !deletedRLs.includes(rl.name),
-    );
+    selectedApp.receivePorts
+      .map((rp): ReceiveLocation[] => rp.receiveLocations)
+      .reduce((prev, curr): ReceiveLocation[] => prev.concat(curr), [])
+      .filter((rl): boolean => !deletedRLs.includes(rl.name));
 
   const handleOpenFile = async (file: File): Promise<void> => {
     const data = new FormData();
@@ -60,9 +62,21 @@ const App = (): JSX.Element => {
     if (selectedApp && receiveLocations && sendPorts) {
       const payload: Application = {
         name: selectedApp.name,
-        receiveLocations,
-        sendPorts,
+        receivePorts: selectedApp.receivePorts
+          .map(
+            (rp): ReceivePort => ({
+              name: rp.name,
+              receiveLocations: rp.receiveLocations.filter(
+                (rl): boolean => !deletedRLs.includes(rl.name),
+              ),
+            }),
+          )
+          .filter((rp): boolean => rp.receiveLocations.length > 0),
+        sendPorts: selectedApp.sendPorts.filter(
+          (sp): boolean => !deletedSPs.includes(sp.name),
+        ),
       };
+
       const response = await axios.post(
         `${window.location.origin}/generate`,
         payload,

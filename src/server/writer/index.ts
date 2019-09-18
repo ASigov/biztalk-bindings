@@ -1,4 +1,4 @@
-import xmlbuilder, { XMLElement, XMLDocumentCB } from 'xmlbuilder';
+import xmlbuilder, { XMLDocumentCB } from 'xmlbuilder';
 import stream from 'stream';
 import { Application, SendPort } from '../../shared/model';
 

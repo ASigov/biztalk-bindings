@@ -4,8 +4,13 @@ export interface Bindings {
 
 export interface Application {
   name: string;
-  receiveLocations: ReceiveLocation[];
+  receivePorts: ReceivePort[];
   sendPorts: SendPort[];
+}
+
+export interface ReceivePort {
+  name: string;
+  receiveLocations: ReceiveLocation[];
 }
 
 export interface ReceiveLocation {
