@@ -80,9 +80,19 @@ const App = (): JSX.Element => {
       const response = await axios.post(
         `${window.location.origin}/generate`,
         payload,
-        { responseType: 'blob' },
+        {
+          responseType: 'blob',
+          validateStatus: (): boolean => true,
+        },
       );
-      await FileSaver.saveAs(response.data, 'temp.xml');
+
+      if (response.status === 500) {
+        const reader = new FileReader();
+        reader.onload = (): void => alert(reader.result);
+        reader.readAsText(response.data);
+      } else {
+        await FileSaver.saveAs(response.data, 'temp.xml');
+      }
     }
   };
 

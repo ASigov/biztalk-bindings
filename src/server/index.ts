@@ -1,5 +1,6 @@
 import express from 'express';
 import multer from 'multer';
+import streams from 'memory-streams';
 import parse from './parser';
 import map from './mapper';
 import write from './writer';
@@ -24,9 +25,18 @@ app.post(
 
 app.post('/generate', (req, res): void => {
   const application = req.body as Application;
-  res.attachment('BindingInfo.xml');
-  write(application, res);
-  res.end();
+  const bindingsStream = new streams.WritableStream();
+  try {
+    write(application, bindingsStream);
+    res.attachment('BindingInfo.xml');
+    res.write(bindingsStream.toBuffer());
+    res.end();
+  } catch (e) {
+    res
+      .status(500)
+      .send(e.message)
+      .end();
+  }
 });
 
 app.listen(port);
