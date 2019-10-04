@@ -1,33 +1,22 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import FileSaver from 'file-saver';
+import { Application, ReceiveLocation, SendPort } from '../../shared/model';
 import {
-  Application,
-  ReceivePort,
-  ReceiveLocation,
-  SendPort,
-} from '../../shared/model';
-import ApplicationTemplates, {
+  applicationTemplates,
   ApplicationTemplate,
+  applicationFactory,
 } from '../../shared/template';
 import ApplicationTemplatesPanel from './ApplicationTemplatesPanel';
 import SendPortsPanel from './SendPortsPanel';
 import ReceiveLocationsPanel from './ReceiveLocatoinsPanel';
 import GeneratePanel from './GeneratePanel';
 
-const createDefaultApp = (template: ApplicationTemplate): Application => {
-  return {
-    name: template.name,
-    receivePorts: [],
-    sendPorts: [],
-  };
-};
-
 const App = (): JSX.Element => {
   const [appTemplate, setAppTemplate] = useState<ApplicationTemplate>(
-    ApplicationTemplates[0],
+    applicationTemplates[0],
   );
-  const [app, setApp] = useState<Application>(createDefaultApp(appTemplate));
+  const [app, setApp] = useState<Application>(applicationFactory(appTemplate));
 
   const receiveLocations = app.receivePorts
     .map((rp): ReceiveLocation[] => rp.receiveLocations)
@@ -35,7 +24,7 @@ const App = (): JSX.Element => {
 
   const handleTemplateChange = (newTemplate: ApplicationTemplate): void => {
     setAppTemplate(newTemplate);
-    setApp(createDefaultApp(newTemplate));
+    setApp(applicationFactory(newTemplate));
   };
 
   const handleAddSP = (newSP: SendPort): void => {
@@ -54,6 +43,14 @@ const App = (): JSX.Element => {
       sendPorts: app.sendPorts.filter((sp): boolean => sp !== deletedSP),
     };
     setApp(newApp);
+  };
+
+  const handleAddRL = (newRL: ReceiveLocation): void => {
+    alert('todo');
+  };
+
+  const handleDeleteRL = (deletedRL: ReceiveLocation): void => {
+    alert('todo');
   };
 
   const handleGenerate = async (): Promise<void> => {
@@ -80,7 +77,7 @@ const App = (): JSX.Element => {
   return (
     <div className="container">
       <ApplicationTemplatesPanel
-        templates={ApplicationTemplates}
+        templates={applicationTemplates}
         selectedTemplate={appTemplate}
         onChange={handleTemplateChange}
       />
@@ -90,7 +87,12 @@ const App = (): JSX.Element => {
         onAdd={handleAddSP}
         onDelete={handleDeleteSP}
       />
-      <ReceiveLocationsPanel rls={receiveLocations} />
+      <ReceiveLocationsPanel
+        rls={receiveLocations}
+        templates={appTemplate.receiveLocationTemplates}
+        onAdd={handleAddRL}
+        onDelete={handleDeleteRL}
+      />
       <GeneratePanel app={app} onGenerate={handleGenerate} />
     </div>
   );

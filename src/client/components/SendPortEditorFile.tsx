@@ -4,7 +4,7 @@ import { AdapterConfigSendFile } from '../../shared/model';
 
 interface SendPortEditorFileProps {
   config: AdapterConfigSendFile;
-  onChange: (c: AdapterConfigSendFile) => void;
+  onChange: (config: AdapterConfigSendFile) => void;
 }
 
 const SendPortEditorFile = (props: SendPortEditorFileProps): JSX.Element => {

@@ -4,7 +4,7 @@ import InputText from './InputText';
 
 interface SendPortEditorNSoftwareFtpProps {
   config: AdapterConfigSendNSoftwareFtp;
-  onChange: (c: AdapterConfigSendNSoftwareFtp) => void;
+  onChange: (config: AdapterConfigSendNSoftwareFtp) => void;
 }
 
 const SendPortEditorNSoftwareFtp = (

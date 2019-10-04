@@ -5,7 +5,7 @@ import Dropdown from './Dropdown';
 interface ApplicationTemplatesPanelProps {
   templates: ApplicationTemplate[];
   selectedTemplate: ApplicationTemplate;
-  onChange: (app: ApplicationTemplate) => void;
+  onChange: (template: ApplicationTemplate) => void;
 }
 
 const ApplicationTemplatesPanel = (
@@ -27,7 +27,7 @@ const ApplicationTemplatesPanel = (
             items={templates}
             selectedItem={selectedTemplate}
             onChange={onChange}
-            format={(a): string => a.name}
+            format={(t): string => t.applicationName}
           />
         </div>
       </div>

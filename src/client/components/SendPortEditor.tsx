@@ -4,7 +4,13 @@ import {
   AdapterConfigSendFile,
   AdapterConfigSendNSoftwareFtp,
 } from '../../shared/model';
-import { SendPortTemplate } from '../../shared/template';
+import {
+  SendPortTemplate,
+  sendPortFactory,
+  defaultAdapterConfigSendFile,
+  defaultAdapterConfigSendNSoftwareFtp,
+  sendAdapterNames,
+} from '../../shared/template';
 import Select from './Select';
 import InputText from './InputText';
 import SendPortEditorFile from './SendPortEditorFile';
@@ -15,148 +21,100 @@ interface SendPortEditorProps {
   onAdd: (sp: SendPort) => void;
 }
 
-const adapters = ['FILE', 'nsoftware.FTP v4', 'nsoftware.FTP 2016'];
-
-const createDefaultFileConfig = (): AdapterConfigSendFile => {
-  return {
-    path: '',
-    fileName: '%SourceFileName%',
-  };
-};
-
-const createDefaultNSoftwareFtpConfig = (): AdapterConfigSendNSoftwareFtp => {
-  return {
-    path: '',
-    fileName: '%SourceFileName%',
-    server: '',
-    port: 21,
-    userName: '',
-    ssoAffiliate: '',
-  };
-};
-
-const createDefaultSendPort = (template: SendPortTemplate): SendPort => {
-  const sendPort: SendPort = {
-    name: template.namePrefix,
-    address: '',
-    adapterName: adapters[0],
-    adapterConfig: undefined,
-  };
-
-  if (template.filterTemplate) {
-    sendPort.filter = {
-      property: template.filterTemplate.property,
-      value: template.filterTemplate.valuePrefix,
-    };
-  }
-
-  if (adapters[0] === 'FILE') {
-    sendPort.adapterConfig = createDefaultFileConfig();
-  } else if (
-    adapters[0] === 'nsoftware.FTP v4' ||
-    adapters[0] === 'nsoftware.FTP 2016'
-  ) {
-    sendPort.adapterConfig = createDefaultNSoftwareFtpConfig();
-  }
-
-  return sendPort;
-};
-
 const SendPortEditor = (props: SendPortEditorProps): JSX.Element => {
   const { templates, onAdd } = props;
 
   const [template, setTemplate] = useState<SendPortTemplate>(templates[0]);
-  const [sendPort, setSendPort] = useState<SendPort>(
-    createDefaultSendPort(template),
-  );
+  const [sp, setSP] = useState<SendPort>(sendPortFactory(template));
   const [fileConfig, setFileConfig] = useState<AdapterConfigSendFile>(
-    createDefaultFileConfig(),
+    defaultAdapterConfigSendFile(),
   );
   const [nSoftwareFtpConfig, setNSoftwareFtpConfig] = useState<
     AdapterConfigSendNSoftwareFtp
-  >(createDefaultNSoftwareFtpConfig());
+  >(defaultAdapterConfigSendNSoftwareFtp());
 
   const handleProfileNameChange = (newProfileName: string): void => {
-    const newSendPort: SendPort = {
-      name: template.namePrefix + newProfileName,
-      address: sendPort.address,
-      adapterName: sendPort.adapterName,
-      adapterConfig: sendPort.adapterConfig,
+    const newSP: SendPort = {
+      name: template.sendPortPrefix + newProfileName,
+      address: sp.address,
+      adapterName: sp.adapterName,
+      adapterConfig: sp.adapterConfig,
     };
 
-    if (sendPort.filter && template.filterTemplate) {
-      newSendPort.filter = {
-        property: sendPort.filter.property,
+    if (sp.filter && template.filterTemplate) {
+      newSP.filter = {
+        property: sp.filter.property,
         value: template.filterTemplate.valuePrefix + newProfileName,
       };
     }
 
-    setSendPort(newSendPort);
+    setSP(newSP);
   };
 
   const handleAdapterNameChange = (newAdapterName: string): void => {
-    const newSendPort: SendPort = {
-      name: sendPort.name,
-      address: sendPort.address,
+    const newSP: SendPort = {
+      name: sp.name,
+      address: sp.address,
       adapterName: newAdapterName,
-      adapterConfig: sendPort.adapterConfig,
-      filter: sendPort.filter,
+      adapterConfig: sp.adapterConfig,
+      filter: sp.filter,
     };
 
     if (newAdapterName === 'FILE') {
-      newSendPort.adapterConfig = fileConfig;
+      newSP.adapterConfig = fileConfig;
     } else if (
       newAdapterName === 'nsoftware.FTP v4' ||
       newAdapterName === 'nsoftware.FTP 2016'
     ) {
-      newSendPort.adapterConfig = nSoftwareFtpConfig;
+      newSP.adapterConfig = nSoftwareFtpConfig;
     }
-    setSendPort(newSendPort);
+
+    setSP(newSP);
   };
 
   const handleFileConfigChange = (newConfig: AdapterConfigSendFile): void => {
-    const newSendPort: SendPort = {
-      name: sendPort.name,
-      address: sendPort.address,
-      adapterName: sendPort.adapterName,
-      adapterConfig: sendPort.adapterConfig,
-      filter: sendPort.filter,
+    const newSP: SendPort = {
+      name: sp.name,
+      address: sp.address,
+      adapterName: sp.adapterName,
+      adapterConfig: sp.adapterConfig,
+      filter: sp.filter,
     };
 
-    if (newSendPort.adapterName === 'FILE') {
-      newSendPort.address = newConfig.path + newConfig.fileName;
-      newSendPort.adapterConfig = newConfig;
+    if (newSP.adapterName === 'FILE') {
+      newSP.address = newConfig.path + newConfig.fileName;
+      newSP.adapterConfig = newConfig;
 
       setFileConfig(newConfig);
-      setSendPort(newSendPort);
+      setSP(newSP);
     }
   };
 
   const handleNSoftwareFtpConfigChange = (
     newConfig: AdapterConfigSendNSoftwareFtp,
   ): void => {
-    const newSendPort: SendPort = {
-      name: sendPort.name,
-      address: sendPort.address,
-      adapterName: sendPort.adapterName,
-      adapterConfig: sendPort.adapterConfig,
-      filter: sendPort.filter,
+    const newSP: SendPort = {
+      name: sp.name,
+      address: sp.address,
+      adapterName: sp.adapterName,
+      adapterConfig: sp.adapterConfig,
+      filter: sp.filter,
     };
 
     if (
-      newSendPort.adapterName === 'nsoftware.FTP v4' ||
-      newSendPort.adapterName === 'nsoftware.FTP 2016'
+      newSP.adapterName === 'nsoftware.FTP v4' ||
+      newSP.adapterName === 'nsoftware.FTP 2016'
     ) {
-      newSendPort.address = `FTP://${newConfig.userName}@${newConfig.server}:${newConfig.port}${newConfig.path}${newConfig.fileName}`;
-      newSendPort.adapterConfig = newConfig;
+      newSP.address = `FTP://${newConfig.userName}@${newConfig.server}:${newConfig.port}${newConfig.path}${newConfig.fileName}`;
+      newSP.adapterConfig = newConfig;
 
       setNSoftwareFtpConfig(newConfig);
-      setSendPort(newSendPort);
+      setSP(newSP);
     }
   };
 
   const handleAddClick = (): void => {
-    onAdd(sendPort);
+    onAdd(sp);
   };
 
   return (
@@ -169,7 +127,7 @@ const SendPortEditor = (props: SendPortEditorProps): JSX.Element => {
             items={templates}
             selectedItem={template}
             onChange={setTemplate}
-            formatter={(t): string => t.name}
+            formatter={(t): string => t.templateName}
           />
         </div>
       )}
@@ -184,20 +142,20 @@ const SendPortEditor = (props: SendPortEditorProps): JSX.Element => {
         <Select
           id="sendPortAdapter"
           label="Adapter"
-          items={adapters}
-          selectedItem={adapters[0]}
+          items={sendAdapterNames}
+          selectedItem={sendAdapterNames[0]}
           onChange={handleAdapterNameChange}
           formatter={(a): string => a}
         />
       </div>
-      {sendPort.adapterName === 'FILE' && (
+      {sp.adapterName === 'FILE' && (
         <SendPortEditorFile
           config={fileConfig}
           onChange={handleFileConfigChange}
         />
       )}
-      {(sendPort.adapterName === 'nsoftware.FTP v4' ||
-        sendPort.adapterName === 'nsoftware.FTP 2016') && (
+      {(sp.adapterName === 'nsoftware.FTP v4' ||
+        sp.adapterName === 'nsoftware.FTP 2016') && (
         <SendPortEditorNSoftwareFtp
           config={nSoftwareFtpConfig}
           onChange={handleNSoftwareFtpConfigChange}
