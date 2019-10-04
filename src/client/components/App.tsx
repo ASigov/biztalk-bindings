@@ -33,21 +33,25 @@ const App = (): JSX.Element => {
     .map((rp): ReceiveLocation[] => rp.receiveLocations)
     .reduce((prev, curr): ReceiveLocation[] => prev.concat(curr), []);
 
-  const handleSelectTemplate = (template: ApplicationTemplate): void => {
-    setAppTemplate(template);
+  const handleTemplateChange = (newTemplate: ApplicationTemplate): void => {
+    setAppTemplate(newTemplate);
+    setApp(createDefaultApp(newTemplate));
+  };
+
+  const handleAddSP = (newSP: SendPort): void => {
     const newApp: Application = {
-      name: template.name,
-      receivePorts: [],
-      sendPorts: [],
+      name: app.name,
+      receivePorts: app.receivePorts,
+      sendPorts: app.sendPorts.concat(newSP),
     };
     setApp(newApp);
   };
 
-  const handleAddSP = (sp: SendPort): void => {
+  const handleDeleteSP = (deletedSP: SendPort): void => {
     const newApp: Application = {
       name: app.name,
       receivePorts: app.receivePorts,
-      sendPorts: app.sendPorts.concat(sp),
+      sendPorts: app.sendPorts.filter((sp): boolean => sp !== deletedSP),
     };
     setApp(newApp);
   };
@@ -78,12 +82,13 @@ const App = (): JSX.Element => {
       <ApplicationTemplatesPanel
         templates={ApplicationTemplates}
         selectedTemplate={appTemplate}
-        onSelect={handleSelectTemplate}
+        onChange={handleTemplateChange}
       />
       <SendPortsPanel
         sps={app.sendPorts}
         templates={appTemplate.sendPortTemplates}
         onAdd={handleAddSP}
+        onDelete={handleDeleteSP}
       />
       <ReceiveLocationsPanel rls={receiveLocations} />
       <GeneratePanel app={app} onGenerate={handleGenerate} />

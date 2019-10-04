@@ -2,14 +2,14 @@ import React from 'react';
 
 interface DropdownProps<T> {
   id: string;
-  items?: T[];
-  selectedItem?: T;
-  onSelect: (item: T) => void;
+  items: T[];
+  selectedItem: T;
+  onChange: (item: T) => void;
   format: (item: T) => string;
 }
 
 const Dropdown = <T extends {}>(props: DropdownProps<T>): JSX.Element => {
-  const { id, items, selectedItem, onSelect, format } = props;
+  const { id, items, selectedItem, onChange, format } = props;
 
   return (
     <div className="dropdown">
@@ -21,22 +21,21 @@ const Dropdown = <T extends {}>(props: DropdownProps<T>): JSX.Element => {
         aria-haspopup="true"
         aria-expanded="false"
       >
-        {selectedItem ? format(selectedItem) : 'Select ...'}
+        {format(selectedItem)}
       </button>
       <div className="dropdown-menu" aria-labelledby={id}>
-        {items &&
-          items.map(
-            (item): JSX.Element => (
-              <button
-                className="dropdown-item"
-                type="button"
-                key={format(item)}
-                onClick={(): void => onSelect(item)}
-              >
-                {format(item)}
-              </button>
-            ),
-          )}
+        {items.map(
+          (item): JSX.Element => (
+            <button
+              className="dropdown-item"
+              type="button"
+              key={format(item)}
+              onClick={(): void => onChange(item)}
+            >
+              {format(item)}
+            </button>
+          ),
+        )}
       </div>
     </div>
   );

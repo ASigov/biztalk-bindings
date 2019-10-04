@@ -3,17 +3,15 @@ import { ApplicationTemplate } from '../../shared/template';
 import Dropdown from './Dropdown';
 
 interface ApplicationTemplatesPanelProps {
-  templates?: ApplicationTemplate[];
-  selectedTemplate?: ApplicationTemplate;
-  onSelect: (app: ApplicationTemplate) => void;
+  templates: ApplicationTemplate[];
+  selectedTemplate: ApplicationTemplate;
+  onChange: (app: ApplicationTemplate) => void;
 }
 
 const ApplicationTemplatesPanel = (
   props: ApplicationTemplatesPanelProps,
 ): JSX.Element => {
-  const { templates, selectedTemplate, onSelect } = props;
-
-  const formatter = (app: ApplicationTemplate): string => app.name;
+  const { templates, selectedTemplate, onChange } = props;
 
   return (
     <>
@@ -28,8 +26,8 @@ const ApplicationTemplatesPanel = (
             id="apps-dropdown"
             items={templates}
             selectedItem={selectedTemplate}
-            onSelect={onSelect}
-            format={formatter}
+            onChange={onChange}
+            format={(a): string => a.name}
           />
         </div>
       </div>

@@ -13,72 +13,78 @@ const SendPortEditorNSoftwareFtp = (
   const { config, onChange } = props;
 
   const handlePathChange = (newPath: string): void => {
-    onChange({
+    const newConfig: AdapterConfigSendNSoftwareFtp = {
       path: newPath,
       fileName: config.fileName,
       server: config.server,
       port: config.port,
       userName: config.userName,
       ssoAffiliate: config.ssoAffiliate,
-    });
+    };
+    onChange(newConfig);
   };
 
   const handleFileNameChange = (newFileName: string): void => {
-    onChange({
+    const newConfig: AdapterConfigSendNSoftwareFtp = {
       path: config.path,
       fileName: newFileName,
       server: config.server,
       port: config.port,
       userName: config.userName,
       ssoAffiliate: config.ssoAffiliate,
-    });
+    };
+    onChange(newConfig);
   };
 
   const handleServerChange = (newServer: string): void => {
-    onChange({
+    const newConfig: AdapterConfigSendNSoftwareFtp = {
       path: config.path,
       fileName: config.fileName,
       server: newServer,
       port: config.port,
       userName: config.userName,
       ssoAffiliate: config.ssoAffiliate,
-    });
+    };
+    onChange(newConfig);
   };
 
   const handlePortChange = (newPort: string): void => {
     const newPortNumber = Number(newPort);
     if (!Number.isNaN(newPortNumber)) {
-      onChange({
+      const newConfig: AdapterConfigSendNSoftwareFtp = {
         path: config.path,
         fileName: config.fileName,
         server: config.server,
         port: newPortNumber,
         userName: config.userName,
         ssoAffiliate: config.ssoAffiliate,
-      });
+      };
+      onChange(newConfig);
     }
   };
 
   const handleUserNameChange = (newUserName: string): void => {
-    onChange({
+    const newConfig: AdapterConfigSendNSoftwareFtp = {
       path: config.path,
       fileName: config.fileName,
       server: config.server,
       port: config.port,
       userName: newUserName,
       ssoAffiliate: config.ssoAffiliate,
-    });
+    };
+    onChange(newConfig);
   };
 
   const handleSsoAffiliateChange = (newSsoAffiliate: string): void => {
-    onChange({
+    const newConfig: AdapterConfigSendNSoftwareFtp = {
       path: config.path,
       fileName: config.fileName,
       server: config.server,
       port: config.port,
       userName: config.userName,
       ssoAffiliate: newSsoAffiliate,
-    });
+    };
+    onChange(newConfig);
   };
 
   return (

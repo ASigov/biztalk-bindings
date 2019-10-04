@@ -11,17 +11,19 @@ const SendPortEditorFile = (props: SendPortEditorFileProps): JSX.Element => {
   const { config, onChange } = props;
 
   const handleFilePathChange = (newPath: string): void => {
-    onChange({
+    const newConfig: AdapterConfigSendFile = {
       path: newPath,
       fileName: config.fileName,
-    });
+    };
+    onChange(newConfig);
   };
 
   const handleFileNameChange = (newFileName: string): void => {
-    onChange({
+    const newConfig: AdapterConfigSendFile = {
       path: config.path,
       fileName: newFileName,
-    });
+    };
+    onChange(newConfig);
   };
 
   return (

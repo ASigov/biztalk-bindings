@@ -12,7 +12,7 @@ import SendPortEditorNSoftwareFtp from './SendPortEditorNSoftwareFtp';
 
 interface SendPortEditorProps {
   templates: SendPortTemplate[];
-  onSubmit: (sp: SendPort) => void;
+  onAdd: (sp: SendPort) => void;
 }
 
 const adapters = ['FILE', 'nsoftware.FTP v4', 'nsoftware.FTP 2016'];
@@ -63,7 +63,7 @@ const createDefaultSendPort = (template: SendPortTemplate): SendPort => {
 };
 
 const SendPortEditor = (props: SendPortEditorProps): JSX.Element => {
-  const { templates, onSubmit } = props;
+  const { templates, onAdd } = props;
 
   const [template, setTemplate] = useState<SendPortTemplate>(templates[0]);
   const [sendPort, setSendPort] = useState<SendPort>(
@@ -126,10 +126,10 @@ const SendPortEditor = (props: SendPortEditorProps): JSX.Element => {
     if (newSendPort.adapterName === 'FILE') {
       newSendPort.address = newConfig.path + newConfig.fileName;
       newSendPort.adapterConfig = newConfig;
-    }
 
-    setFileConfig(newConfig);
-    setSendPort(newSendPort);
+      setFileConfig(newConfig);
+      setSendPort(newSendPort);
+    }
   };
 
   const handleNSoftwareFtpConfigChange = (
@@ -149,28 +149,30 @@ const SendPortEditor = (props: SendPortEditorProps): JSX.Element => {
     ) {
       newSendPort.address = `FTP://${newConfig.userName}@${newConfig.server}:${newConfig.port}${newConfig.path}${newConfig.fileName}`;
       newSendPort.adapterConfig = newConfig;
-    }
 
-    setNSoftwareFtpConfig(newConfig);
-    setSendPort(newSendPort);
+      setNSoftwareFtpConfig(newConfig);
+      setSendPort(newSendPort);
+    }
   };
 
   const handleAddClick = (): void => {
-    onSubmit(sendPort);
+    onAdd(sendPort);
   };
 
   return (
     <>
-      <div className="form-group">
-        <Select
-          id="sendPortTemplate"
-          label="Template"
-          items={templates}
-          selectedItem={template}
-          onChange={setTemplate}
-          formatter={(t): string => t.name}
-        />
-      </div>
+      {templates.length > 1 && (
+        <div className="form-group">
+          <Select
+            id="sendPortTemplate"
+            label="Template"
+            items={templates}
+            selectedItem={template}
+            onChange={setTemplate}
+            formatter={(t): string => t.name}
+          />
+        </div>
+      )}
       <div className="form-group">
         <InputText
           id="profileName"
