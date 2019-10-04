@@ -27,7 +27,7 @@ const writeSendPort = (
     .up()
     .ele('Tracking', 0)
     .up();
-  writeSPFilter(feed, sp, appName);
+  writeSPFilter(feed, sp);
   feed
     .ele('OrderedDelivery', false)
     .up()
