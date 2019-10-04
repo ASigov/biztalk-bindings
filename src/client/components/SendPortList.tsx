@@ -4,11 +4,10 @@ import SendPortListItem from './SendPortListItem';
 
 interface SendPortListProps {
   sps?: SendPort[];
-  onDelete: (sp: SendPort) => void;
 }
 
 const SendPortList = (props: SendPortListProps): JSX.Element => {
-  const { sps, onDelete } = props;
+  const { sps } = props;
 
   return (
     <ul className="list-group">
@@ -17,7 +16,7 @@ const SendPortList = (props: SendPortListProps): JSX.Element => {
           (sp): JSX.Element => {
             return (
               <li className="list-group-item" key={sp.name}>
-                <SendPortListItem sp={sp} onDelete={onDelete} />
+                <SendPortListItem sp={sp} />
               </li>
             );
           },

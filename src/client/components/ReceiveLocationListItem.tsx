@@ -3,16 +3,15 @@ import { ReceiveLocation } from '../../shared/model';
 
 interface ReceiveLocationListItemProps {
   rl: ReceiveLocation;
-  onDelete: (rl: ReceiveLocation) => void;
 }
 
 const ReceiveLocationListItem = (
   props: ReceiveLocationListItemProps,
 ): JSX.Element => {
-  const { rl, onDelete } = props;
+  const { rl } = props;
 
   const handleDeleteClick = (): void => {
-    onDelete(rl);
+    alert('todo');
   };
 
   return (

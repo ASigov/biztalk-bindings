@@ -4,11 +4,10 @@ import ReceiveLocationListItem from './ReceiveLocationListItem';
 
 interface ReceiveLocationListProps {
   rls?: ReceiveLocation[];
-  onDelete: (rl: ReceiveLocation) => void;
 }
 
 const ReceiveLocationList = (props: ReceiveLocationListProps): JSX.Element => {
-  const { rls, onDelete } = props;
+  const { rls } = props;
 
   return (
     <ul className="list-group">
@@ -17,7 +16,7 @@ const ReceiveLocationList = (props: ReceiveLocationListProps): JSX.Element => {
           (rl): JSX.Element => {
             return (
               <li className="list-group-item" key={rl.name}>
-                <ReceiveLocationListItem rl={rl} onDelete={onDelete} />
+                <ReceiveLocationListItem rl={rl} />
               </li>
             );
           },

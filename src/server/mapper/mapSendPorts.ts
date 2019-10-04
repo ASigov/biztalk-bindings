@@ -1,6 +1,7 @@
 import ParserState from '../parser/ParserState';
 import { SendPort } from '../../shared/model';
 import mapAdapterConfigSend from './mapAdapterConfigSend';
+import mapSendPortFilter from './mapSendPortFilter';
 
 const mapSendPorts = (
   state: ParserState,
@@ -14,6 +15,7 @@ const mapSendPorts = (
         address: sp.address,
         adapterName: sp.adapterName,
         adapterConfig: mapAdapterConfigSend(sp),
+        filter: mapSendPortFilter(sp),
       }),
     )
     .sort((left, right): number => left.name.localeCompare(right.name));

@@ -4,13 +4,12 @@ import { ReceiveLocation } from '../../shared/model';
 
 interface ReceiveLocationsPanelProps {
   rls?: ReceiveLocation[];
-  onDelete: (rl: ReceiveLocation) => void;
 }
 
 const ReceiveLocationsPanel = (
   props: ReceiveLocationsPanelProps,
 ): JSX.Element => {
-  const { rls, onDelete } = props;
+  const { rls } = props;
 
   const count = rls ? rls.length : 0;
 
@@ -26,7 +25,7 @@ const ReceiveLocationsPanel = (
       </div>
       <div className="row">
         <div className="col">
-          <ReceiveLocationList rls={rls} onDelete={onDelete} />
+          <ReceiveLocationList rls={rls} />
         </div>
       </div>
     </>

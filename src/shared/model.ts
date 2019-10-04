@@ -25,6 +25,12 @@ export interface SendPort {
   address: string;
   adapterName: string;
   adapterConfig: AdapterConfigSend;
+  filter?: SendPortFilter;
+}
+
+export interface SendPortFilter {
+  property: string;
+  value: string;
 }
 
 export type AdapterConfigReceive =

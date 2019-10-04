@@ -3,14 +3,13 @@ import { SendPort } from '../../shared/model';
 
 interface SendPortListItemProps {
   sp: SendPort;
-  onDelete: (sp: SendPort) => void;
 }
 
 const SendPortListItem = (props: SendPortListItemProps): JSX.Element => {
-  const { sp, onDelete } = props;
+  const { sp } = props;
 
   const handleDeleteClick = (): void => {
-    onDelete(sp);
+    alert('todo');
   };
 
   return (

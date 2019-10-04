@@ -1,16 +1,23 @@
-import React from 'react';
-import SendPortList from './SendPortList';
+import React, { useState } from 'react';
 import { SendPort } from '../../shared/model';
+import { SendPortTemplate } from '../../shared/template';
+import SendPortEditor from './SendPortEditor';
+import SendPortList from './SendPortList';
 
 interface SendPortsPanel {
   sps?: SendPort[];
-  onDelete: (sp: SendPort) => void;
+  templates: SendPortTemplate[];
+  onAdd: (sp: SendPort) => void;
 }
 
 const SendPortsPanel = (props: SendPortsPanel): JSX.Element => {
-  const { sps, onDelete } = props;
+  const { sps, templates, onAdd } = props;
 
   const count = sps ? sps.length : 0;
+
+  const handleEditorSubmit = (sp: SendPort): void => {
+    onAdd(sp);
+  };
 
   return (
     <>
@@ -24,7 +31,12 @@ const SendPortsPanel = (props: SendPortsPanel): JSX.Element => {
       </div>
       <div className="row">
         <div className="col">
-          <SendPortList sps={sps} onDelete={onDelete} />
+          <SendPortEditor templates={templates} onSubmit={handleEditorSubmit} />
+        </div>
+      </div>
+      <div className="row">
+        <div className="col">
+          <SendPortList sps={sps} />
         </div>
       </div>
     </>
