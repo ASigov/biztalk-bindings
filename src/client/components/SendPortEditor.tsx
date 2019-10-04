@@ -125,6 +125,7 @@ const SendPortEditor = (props: SendPortEditorProps): JSX.Element => {
 
     if (newSendPort.adapterName === 'FILE') {
       newSendPort.address = newConfig.path + newConfig.fileName;
+      newSendPort.adapterConfig = newConfig;
     }
 
     setFileConfig(newConfig);
@@ -147,6 +148,7 @@ const SendPortEditor = (props: SendPortEditorProps): JSX.Element => {
       newSendPort.adapterName === 'nsoftware.FTP 2016'
     ) {
       newSendPort.address = `FTP://${newConfig.userName}@${newConfig.server}:${newConfig.port}${newConfig.path}${newConfig.fileName}`;
+      newSendPort.adapterConfig = newConfig;
     }
 
     setNSoftwareFtpConfig(newConfig);

@@ -4,8 +4,8 @@ import { SendPort } from '../../shared/model';
 const writeSPFilter = (feed: XMLDocumentCB, sp: SendPort): void => {
   if (sp.filter) {
     feed
-      .ele(
-        'Filter',
+      .ele('Filter')
+      .text(
         xmlbuilder
           .create('Filter', { headless: true })
           .att('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance')
