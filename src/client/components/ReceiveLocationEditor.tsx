@@ -14,6 +14,7 @@ import {
 import Select from './Select';
 import InputText from './InputText';
 import ReceiveLocationEditorFile from './ReceiveLocationEditorFile';
+import ReceiveLocationEditorNSoftwareFtp from './ReceiveLocationEditorNSoftwareFtp';
 
 interface ReceiveLocationEditorProps {
   templates: ReceiveLocationTemplate[];
@@ -88,6 +89,10 @@ const ReceiveLocationEditor = (
     }
   };
 
+  const handleNSoftwareFtpConfigChange = (
+    newConfig: AdapterConfigReceiveNSoftwareFtp,
+  ): void => {};
+
   const handleAddClick = (): void => {
     alert('todo');
   };
@@ -125,6 +130,13 @@ const ReceiveLocationEditor = (
         <ReceiveLocationEditorFile
           config={fileConfig}
           onChange={handleFileConfigChange}
+        />
+      )}
+      {(rl.adapterName === 'nsoftware.FTP v4' ||
+        rl.adapterName === 'nsoftware.FTP 2016') && (
+        <ReceiveLocationEditorNSoftwareFtp
+          config={nSoftwareFtpConfig}
+          onChange={handleNSoftwareFtpConfigChange}
         />
       )}
       <button

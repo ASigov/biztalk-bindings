@@ -78,8 +78,8 @@ const ReceiveLocationEditorNSoftwareFtp = (
       </div>
       <div className="form-group">
         <InputText
-          id="receiveLocationNSoftwareFtpSsoAffiliate"
-          label="SSO Affiliate"
+          id="receiveLocationNSoftwareFtpPollingInterval"
+          label="Polling interval"
           value={config.pollingInterval.toString()}
           onChange={handlePollingIntervalChange}
         />
