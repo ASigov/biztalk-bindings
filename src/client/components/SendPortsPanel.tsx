@@ -4,14 +4,14 @@ import { SendPortTemplate } from '../../shared/template';
 import SendPortEditor from './SendPortEditor';
 import SendPortList from './SendPortList';
 
-interface SendPortsPanel {
+interface SendPortsPanelProps {
   sps: SendPort[];
   templates: SendPortTemplate[];
   onAdd: (sp: SendPort) => void;
   onDelete: (sp: SendPort) => void;
 }
 
-const SendPortsPanel = (props: SendPortsPanel): JSX.Element => {
+const SendPortsPanel = (props: SendPortsPanelProps): JSX.Element => {
   const { sps, templates, onAdd, onDelete } = props;
 
   return (

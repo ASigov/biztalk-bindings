@@ -18,7 +18,7 @@ import ReceiveLocationEditorNSoftwareFtp from './ReceiveLocationEditorNSoftwareF
 
 interface ReceiveLocationEditorProps {
   templates: ReceiveLocationTemplate[];
-  onAdd: (rl: ReceiveLocation) => void;
+  onAdd: (rl: ReceiveLocation, rp: string) => void;
 }
 
 const ReceiveLocationEditor = (
@@ -91,10 +91,25 @@ const ReceiveLocationEditor = (
 
   const handleNSoftwareFtpConfigChange = (
     newConfig: AdapterConfigReceiveNSoftwareFtp,
-  ): void => {};
+  ): void => {
+    const newRL: ReceiveLocation = {
+      name: rl.name,
+      address: rl.address,
+      adapterName: rl.adapterName,
+      adapterConfig: rl.adapterConfig,
+    }
+
+    if (newRL.adapterName === 'nsoftware.FTP v4' || newRL.adapterName === 'nsoftware.FTP 2016') {
+      newRL.address = `FTP://${newConfig.userName}@${newConfig.server}:${newConfig.port}${newConfig.path}${newConfig.fileMask}`
+      newRL.adapterConfig = newConfig;
+
+      setNSoftwareFtpConfig(newConfig);
+      setRL(newRL);
+    }
+  };
 
   const handleAddClick = (): void => {
-    alert('todo');
+    onAdd(rl, template.receivePort);
   };
 
   return (

@@ -9,7 +9,7 @@ import {
 } from '../../shared/template';
 import ApplicationTemplatesPanel from './ApplicationTemplatesPanel';
 import SendPortsPanel from './SendPortsPanel';
-import ReceiveLocationsPanel from './ReceiveLocatoinsPanel';
+import ReceiveLocationPanel from './ReceiveLocatoinPanel';
 import GeneratePanel from './GeneratePanel';
 
 const App = (): JSX.Element => {
@@ -45,7 +45,7 @@ const App = (): JSX.Element => {
     setApp(newApp);
   };
 
-  const handleAddRL = (newRL: ReceiveLocation): void => {
+  const handleAddRL = (newRL: ReceiveLocation, receivePortName: string): void => {
     alert('todo');
   };
 
@@ -87,7 +87,7 @@ const App = (): JSX.Element => {
         onAdd={handleAddSP}
         onDelete={handleDeleteSP}
       />
-      <ReceiveLocationsPanel
+      <ReceiveLocationPanel
         rls={receiveLocations}
         templates={appTemplate.receiveLocationTemplates}
         onAdd={handleAddRL}

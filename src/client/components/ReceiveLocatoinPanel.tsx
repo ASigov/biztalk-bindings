@@ -4,15 +4,15 @@ import { ReceiveLocationTemplate } from '../../shared/template';
 import ReceiveLocationEditor from './ReceiveLocationEditor';
 import ReceiveLocationList from './ReceiveLocationList';
 
-interface ReceiveLocationsPanelProps {
+interface ReceiveLocationPanelProps {
   rls: ReceiveLocation[];
   templates: ReceiveLocationTemplate[];
-  onAdd: (rl: ReceiveLocation) => void;
+  onAdd: (rl: ReceiveLocation, rp: string) => void;
   onDelete: (rl: ReceiveLocation) => void;
 }
 
-const ReceiveLocationsPanel = (
-  props: ReceiveLocationsPanelProps,
+const ReceiveLocationPanel = (
+  props: ReceiveLocationPanelProps,
 ): JSX.Element => {
   const { rls, templates, onAdd, onDelete } = props;
 
@@ -40,4 +40,4 @@ const ReceiveLocationsPanel = (
   );
 };
 
-export default ReceiveLocationsPanel;
+export default ReceiveLocationPanel;
