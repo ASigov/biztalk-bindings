@@ -3,18 +3,20 @@ import {
   ReceiveLocation,
   AdapterConfigReceiveFile,
   AdapterConfigReceiveNSoftwareFtp,
+  AdapterConfigReceiveNSoftwareSftp,
 } from '../../shared/model';
 import {
   ReceiveLocationTemplate,
   receiveLocationFactory,
-  receiveAdapterNames,
   defaultAdapterConfigReceiveFile,
   defaultAdapterConfigReceiveNSoftwareFtp,
+  defaultAdapterConfigReceiveNSoftwareSftp,
 } from '../../shared/template';
 import Select from './Select';
 import InputText from './InputText';
 import ReceiveLocationEditorFile from './ReceiveLocationEditorFile';
 import ReceiveLocationEditorNSoftwareFtp from './ReceiveLocationEditorNSoftwareFtp';
+import ReceiveLocationEditorNSoftwareSftp from './ReceiveLocationEditorNSoftwareSftp';
 
 interface ReceiveLocationEditorProps {
   templates: ReceiveLocationTemplate[];
@@ -38,6 +40,9 @@ const ReceiveLocationEditor = (
   const [nSoftwareFtpConfig, setNSoftwareFtpConfig] = useState<
     AdapterConfigReceiveNSoftwareFtp
   >(defaultAdapterConfigReceiveNSoftwareFtp());
+  const [nSoftwareSftpConfig, setNSoftwareSftpConfig] = useState<
+    AdapterConfigReceiveNSoftwareSftp
+  >(defaultAdapterConfigReceiveNSoftwareSftp());
 
   const handleProfileNameChange = (newProfileName: string): void => {
     const newRL: ReceiveLocation = {
@@ -60,11 +65,19 @@ const ReceiveLocationEditor = (
 
     if (newAdapterName === 'FILE') {
       newRL.adapterConfig = fileConfig;
+      newRL.address = fileConfig.path + fileConfig.fileMask;
     } else if (
       newAdapterName === 'nsoftware.FTP v4' ||
       newAdapterName === 'nsoftware.FTP 2016'
     ) {
       newRL.adapterConfig = nSoftwareFtpConfig;
+      newRL.address = `FTP://${nSoftwareFtpConfig.userName}@${nSoftwareFtpConfig.server}:${nSoftwareFtpConfig.port}${nSoftwareFtpConfig.path}${nSoftwareFtpConfig.fileMask}`;
+    } else if (
+      newAdapterName === 'nsoftware.SFTP v4' ||
+      newAdapterName === 'nsoftware.SFTP 2016'
+    ) {
+      newRL.adapterConfig = nSoftwareSftpConfig;
+      newRL.address = `SFTP://${nSoftwareSftpConfig.userName}@${nSoftwareSftpConfig.server}:${nSoftwareSftpConfig.port}${nSoftwareSftpConfig.path}${nSoftwareSftpConfig.fileMask}`;
     }
 
     setRL(newRL);
@@ -97,13 +110,38 @@ const ReceiveLocationEditor = (
       address: rl.address,
       adapterName: rl.adapterName,
       adapterConfig: rl.adapterConfig,
-    }
+    };
 
-    if (newRL.adapterName === 'nsoftware.FTP v4' || newRL.adapterName === 'nsoftware.FTP 2016') {
-      newRL.address = `FTP://${newConfig.userName}@${newConfig.server}:${newConfig.port}${newConfig.path}${newConfig.fileMask}`
+    if (
+      newRL.adapterName === 'nsoftware.FTP v4' ||
+      newRL.adapterName === 'nsoftware.FTP 2016'
+    ) {
+      newRL.address = `FTP://${newConfig.userName}@${newConfig.server}:${newConfig.port}${newConfig.path}${newConfig.fileMask}`;
       newRL.adapterConfig = newConfig;
 
       setNSoftwareFtpConfig(newConfig);
+      setRL(newRL);
+    }
+  };
+
+  const handleNSoftwareSftpConfigChange = (
+    newConfig: AdapterConfigReceiveNSoftwareSftp,
+  ): void => {
+    const newRL: ReceiveLocation = {
+      name: rl.name,
+      address: rl.address,
+      adapterName: rl.adapterName,
+      adapterConfig: rl.adapterConfig,
+    };
+
+    if (
+      newRL.adapterName === 'nsoftware.SFTP v4' ||
+      newRL.adapterName === 'nsoftware.SFTP 2016'
+    ) {
+      newRL.address = `SFTP://${newConfig.userName}@${newConfig.server}:${newConfig.port}${newConfig.path}${newConfig.fileMask}`;
+      newRL.adapterConfig = newConfig;
+
+      setNSoftwareSftpConfig(newConfig);
       setRL(newRL);
     }
   };
@@ -135,8 +173,8 @@ const ReceiveLocationEditor = (
         <Select
           id="sendPortAdapter"
           label="Adapter"
-          items={receiveAdapterNames}
-          selectedItem={receiveAdapterNames[0]}
+          items={template.adapters}
+          selectedItem={template.adapters[0]}
           onChange={handleAdapterNameChange}
           formatter={(a): string => a}
         />
@@ -152,6 +190,13 @@ const ReceiveLocationEditor = (
         <ReceiveLocationEditorNSoftwareFtp
           config={nSoftwareFtpConfig}
           onChange={handleNSoftwareFtpConfigChange}
+        />
+      )}
+      {(rl.adapterName === 'nsoftware.SFTP v4' ||
+        rl.adapterName === 'nsoftware.SFTP 2016') && (
+        <ReceiveLocationEditorNSoftwareSftp
+          config={nSoftwareSftpConfig}
+          onChange={handleNSoftwareSftpConfigChange}
         />
       )}
       <button

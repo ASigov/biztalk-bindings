@@ -3,18 +3,20 @@ import {
   SendPort,
   AdapterConfigSendFile,
   AdapterConfigSendNSoftwareFtp,
+  AdapterConfigSendNSoftwareSftp,
 } from '../../shared/model';
 import {
   SendPortTemplate,
   sendPortFactory,
   defaultAdapterConfigSendFile,
   defaultAdapterConfigSendNSoftwareFtp,
-  sendAdapterNames,
+  defaultAdapterConfigSendNSoftwareSftp,
 } from '../../shared/template';
 import Select from './Select';
 import InputText from './InputText';
 import SendPortEditorFile from './SendPortEditorFile';
 import SendPortEditorNSoftwareFtp from './SendPortEditorNSoftwareFtp';
+import SendPortEditorNSoftwareSftp from './SendPortEditorNSoftwareSftp';
 
 interface SendPortEditorProps {
   templates: SendPortTemplate[];
@@ -32,6 +34,9 @@ const SendPortEditor = (props: SendPortEditorProps): JSX.Element => {
   const [nSoftwareFtpConfig, setNSoftwareFtpConfig] = useState<
     AdapterConfigSendNSoftwareFtp
   >(defaultAdapterConfigSendNSoftwareFtp());
+  const [nSoftwareSftpConfig, setNSoftwareSftpConfig] = useState<
+    AdapterConfigSendNSoftwareSftp
+  >(defaultAdapterConfigSendNSoftwareSftp());
 
   const handleProfileNameChange = (newProfileName: string): void => {
     const newSP: SendPort = {
@@ -62,11 +67,19 @@ const SendPortEditor = (props: SendPortEditorProps): JSX.Element => {
 
     if (newAdapterName === 'FILE') {
       newSP.adapterConfig = fileConfig;
+      newSP.address = fileConfig.path + fileConfig.fileName;
     } else if (
       newAdapterName === 'nsoftware.FTP v4' ||
       newAdapterName === 'nsoftware.FTP 2016'
     ) {
       newSP.adapterConfig = nSoftwareFtpConfig;
+      newSP.address = `FTP://${nSoftwareFtpConfig.userName}@${nSoftwareFtpConfig.server}:${nSoftwareFtpConfig.port}${nSoftwareFtpConfig.path}${nSoftwareFtpConfig.fileName}`;
+    } else if (
+      newAdapterName === 'nsoftware.SFTP v4' ||
+      newAdapterName === 'nsoftware.SFTP 2016'
+    ) {
+      newSP.adapterConfig = nSoftwareSftpConfig;
+      newSP.address = `SFTP://${nSoftwareSftpConfig.userName}@${nSoftwareSftpConfig.server}:${nSoftwareSftpConfig.port}${nSoftwareSftpConfig.path}${nSoftwareSftpConfig.fileName}`;
     }
 
     setSP(newSP);
@@ -113,6 +126,29 @@ const SendPortEditor = (props: SendPortEditorProps): JSX.Element => {
     }
   };
 
+  const handleNSoftwareSftpConfigChange = (
+    newConfig: AdapterConfigSendNSoftwareSftp,
+  ): void => {
+    const newSP: SendPort = {
+      name: sp.name,
+      address: sp.address,
+      adapterName: sp.adapterName,
+      adapterConfig: sp.adapterConfig,
+      filter: sp.filter,
+    };
+
+    if (
+      newSP.adapterName === 'nsoftware.SFTP v4' ||
+      newSP.adapterName === 'nsoftware.SFTP 2016'
+    ) {
+      newSP.address = `SFTP://${newConfig.userName}@${newConfig.server}:${newConfig.port}${newConfig.path}${newConfig.fileName}`;
+      newSP.adapterConfig = newConfig;
+
+      setNSoftwareSftpConfig(newConfig);
+      setSP(newSP);
+    }
+  };
+
   const handleAddClick = (): void => {
     onAdd(sp);
   };
@@ -142,8 +178,8 @@ const SendPortEditor = (props: SendPortEditorProps): JSX.Element => {
         <Select
           id="sendPortAdapter"
           label="Adapter"
-          items={sendAdapterNames}
-          selectedItem={sendAdapterNames[0]}
+          items={template.adapters}
+          selectedItem={template.adapters[0]}
           onChange={handleAdapterNameChange}
           formatter={(a): string => a}
         />
@@ -159,6 +195,13 @@ const SendPortEditor = (props: SendPortEditorProps): JSX.Element => {
         <SendPortEditorNSoftwareFtp
           config={nSoftwareFtpConfig}
           onChange={handleNSoftwareFtpConfigChange}
+        />
+      )}
+      {(sp.adapterName === 'nsoftware.SFTP v4' ||
+        sp.adapterName === 'nsoftware.SFTP 2016') && (
+        <SendPortEditorNSoftwareSftp
+          config={nSoftwareSftpConfig}
+          onChange={handleNSoftwareSftpConfigChange}
         />
       )}
       <button

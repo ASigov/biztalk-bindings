@@ -10,6 +10,7 @@ const writeReceiveHandler = (
     HostTrusted: false,
   });
   writeTransportType(feed, adapterName);
+  feed.up();
 };
 
 export default writeReceiveHandler;
