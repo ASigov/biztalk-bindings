@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import FileSaver from 'file-saver';
-import { Application, ReceiveLocation, SendPort } from '../../shared/model';
+import {
+  Application,
+  ReceiveLocation,
+  SendPort,
+  ReceivePort,
+} from '../../shared/model';
 import {
   applicationTemplates,
   ApplicationTemplate,
@@ -45,12 +50,51 @@ const App = (): JSX.Element => {
     setApp(newApp);
   };
 
-  const handleAddRL = (newRL: ReceiveLocation, receivePortName: string): void => {
-    alert('todo');
+  const handleAddRL = (
+    newRL: ReceiveLocation,
+    receivePortName: string,
+  ): void => {
+    // Check if receive port already exists
+    const receivePort = app.receivePorts.find(
+      (rp): boolean => rp.name === receivePortName,
+    );
+    if (receivePort) {
+      receivePort.receiveLocations.push(newRL);
+      const newApp: Application = {
+        name: app.name,
+        receivePorts: app.receivePorts,
+        sendPorts: app.sendPorts,
+      };
+      setApp(newApp);
+    } else {
+      const newApp: Application = {
+        name: app.name,
+        receivePorts: app.receivePorts.concat({
+          name: receivePortName,
+          receiveLocations: [newRL],
+        }),
+        sendPorts: app.sendPorts,
+      };
+      setApp(newApp);
+    }
   };
 
   const handleDeleteRL = (deletedRL: ReceiveLocation): void => {
-    alert('todo');
+    const newApp: Application = {
+      name: app.name,
+      receivePorts: app.receivePorts
+        .map(
+          (rp): ReceivePort => ({
+            name: rp.name,
+            receiveLocations: rp.receiveLocations.filter(
+              (rl): boolean => rl.name !== deletedRL.name,
+            ),
+          }),
+        )
+        .filter((rp): boolean => rp.receiveLocations.length > 0),
+      sendPorts: app.sendPorts,
+    };
+    setApp(newApp);
   };
 
   const handleGenerate = async (): Promise<void> => {
