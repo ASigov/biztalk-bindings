@@ -7,10 +7,13 @@ import {
 } from '../../shared/model';
 import {
   SendPortTemplate,
-  sendPortFactory,
   defaultAdapterConfigSendFile,
   defaultAdapterConfigSendNSoftwareFtp,
   defaultAdapterConfigSendNSoftwareSftp,
+  formatSendFileAddress,
+  formatSendNSoftwareFtpAddress,
+  formatSendNSoftwareSftpAddress,
+  sendPortFactory,
 } from '../../shared/template';
 import Select from './Select';
 import InputText from './InputText';
@@ -66,20 +69,20 @@ const SendPortEditor = (props: SendPortEditorProps): JSX.Element => {
     };
 
     if (newAdapterName === 'FILE') {
+      newSP.address = formatSendFileAddress(fileConfig);
       newSP.adapterConfig = fileConfig;
-      newSP.address = fileConfig.path + fileConfig.fileName;
     } else if (
       newAdapterName === 'nsoftware.FTP v4' ||
       newAdapterName === 'nsoftware.FTP 2016'
     ) {
+      newSP.address = formatSendNSoftwareFtpAddress(nSoftwareFtpConfig);
       newSP.adapterConfig = nSoftwareFtpConfig;
-      newSP.address = `FTP://${nSoftwareFtpConfig.userName}@${nSoftwareFtpConfig.server}:${nSoftwareFtpConfig.port}${nSoftwareFtpConfig.path}${nSoftwareFtpConfig.fileName}`;
     } else if (
       newAdapterName === 'nsoftware.SFTP v4' ||
       newAdapterName === 'nsoftware.SFTP 2016'
     ) {
+      newSP.address = formatSendNSoftwareSftpAddress(nSoftwareSftpConfig);
       newSP.adapterConfig = nSoftwareSftpConfig;
-      newSP.address = `SFTP://${nSoftwareSftpConfig.userName}@${nSoftwareSftpConfig.server}:${nSoftwareSftpConfig.port}${nSoftwareSftpConfig.path}${nSoftwareSftpConfig.fileName}`;
     }
 
     setSP(newSP);
@@ -95,7 +98,7 @@ const SendPortEditor = (props: SendPortEditorProps): JSX.Element => {
     };
 
     if (newSP.adapterName === 'FILE') {
-      newSP.address = newConfig.path + newConfig.fileName;
+      newSP.address = formatSendFileAddress(newConfig);
       newSP.adapterConfig = newConfig;
 
       setFileConfig(newConfig);
@@ -118,7 +121,7 @@ const SendPortEditor = (props: SendPortEditorProps): JSX.Element => {
       newSP.adapterName === 'nsoftware.FTP v4' ||
       newSP.adapterName === 'nsoftware.FTP 2016'
     ) {
-      newSP.address = `FTP://${newConfig.userName}@${newConfig.server}:${newConfig.port}${newConfig.path}${newConfig.fileName}`;
+      newSP.address = formatSendNSoftwareFtpAddress(newConfig);
       newSP.adapterConfig = newConfig;
 
       setNSoftwareFtpConfig(newConfig);
@@ -141,7 +144,7 @@ const SendPortEditor = (props: SendPortEditorProps): JSX.Element => {
       newSP.adapterName === 'nsoftware.SFTP v4' ||
       newSP.adapterName === 'nsoftware.SFTP 2016'
     ) {
-      newSP.address = `SFTP://${newConfig.userName}@${newConfig.server}:${newConfig.port}${newConfig.path}${newConfig.fileName}`;
+      newSP.address = formatSendNSoftwareSftpAddress(newConfig);
       newSP.adapterConfig = newConfig;
 
       setNSoftwareSftpConfig(newConfig);

@@ -7,10 +7,13 @@ import {
 } from '../../shared/model';
 import {
   ReceiveLocationTemplate,
-  receiveLocationFactory,
   defaultAdapterConfigReceiveFile,
   defaultAdapterConfigReceiveNSoftwareFtp,
   defaultAdapterConfigReceiveNSoftwareSftp,
+  formatReceiveFileAddress,
+  formatReceiveNSoftwareFtpAddress,
+  formatReceiveNSoftwareSftpAddress,
+  receiveLocationFactory,
 } from '../../shared/template';
 import Select from './Select';
 import InputText from './InputText';
@@ -64,20 +67,20 @@ const ReceiveLocationEditor = (
     };
 
     if (newAdapterName === 'FILE') {
+      newRL.address = formatReceiveFileAddress(fileConfig);
       newRL.adapterConfig = fileConfig;
-      newRL.address = fileConfig.path + fileConfig.fileMask;
     } else if (
       newAdapterName === 'nsoftware.FTP v4' ||
       newAdapterName === 'nsoftware.FTP 2016'
     ) {
+      newRL.address = formatReceiveNSoftwareFtpAddress(nSoftwareFtpConfig);
       newRL.adapterConfig = nSoftwareFtpConfig;
-      newRL.address = `FTP://${nSoftwareFtpConfig.userName}@${nSoftwareFtpConfig.server}:${nSoftwareFtpConfig.port}${nSoftwareFtpConfig.path}${nSoftwareFtpConfig.fileMask}`;
     } else if (
       newAdapterName === 'nsoftware.SFTP v4' ||
       newAdapterName === 'nsoftware.SFTP 2016'
     ) {
+      newRL.address = formatReceiveNSoftwareSftpAddress(nSoftwareSftpConfig);
       newRL.adapterConfig = nSoftwareSftpConfig;
-      newRL.address = `SFTP://${nSoftwareSftpConfig.userName}@${nSoftwareSftpConfig.server}:${nSoftwareSftpConfig.port}${nSoftwareSftpConfig.path}${nSoftwareSftpConfig.fileMask}`;
     }
 
     setRL(newRL);
@@ -94,7 +97,7 @@ const ReceiveLocationEditor = (
     };
 
     if (newRL.adapterName === 'FILE') {
-      newRL.address = newConfig.path + newConfig.fileMask;
+      newRL.address = formatReceiveFileAddress(newConfig);
       newRL.adapterConfig = newConfig;
 
       setFileConfig(newConfig);
@@ -116,7 +119,7 @@ const ReceiveLocationEditor = (
       newRL.adapterName === 'nsoftware.FTP v4' ||
       newRL.adapterName === 'nsoftware.FTP 2016'
     ) {
-      newRL.address = `FTP://${newConfig.userName}@${newConfig.server}:${newConfig.port}${newConfig.path}${newConfig.fileMask}`;
+      newRL.address = formatReceiveNSoftwareFtpAddress(newConfig);
       newRL.adapterConfig = newConfig;
 
       setNSoftwareFtpConfig(newConfig);
@@ -138,7 +141,7 @@ const ReceiveLocationEditor = (
       newRL.adapterName === 'nsoftware.SFTP v4' ||
       newRL.adapterName === 'nsoftware.SFTP 2016'
     ) {
-      newRL.address = `SFTP://${newConfig.userName}@${newConfig.server}:${newConfig.port}${newConfig.path}${newConfig.fileMask}`;
+      newRL.address = formatReceiveNSoftwareSftpAddress(newConfig);
       newRL.adapterConfig = newConfig;
 
       setNSoftwareSftpConfig(newConfig);

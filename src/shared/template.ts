@@ -37,6 +37,64 @@ export interface SendPortFilterTemplate {
   valuePrefix: string;
 }
 
+const trimEnd = (inputString: string, charToTrim: string): string => {
+  let str = inputString;
+  while (str.charAt(str.length - 1) === charToTrim) {
+    str = str.substring(0, str.length - 1);
+  }
+  return str;
+};
+
+const trimStart = (inputString: string, charToTrim: string): string => {
+  let str = inputString;
+  while (str.charAt(0) === charToTrim) {
+    str = str.substring(1);
+  }
+  return str;
+};
+
+export const formatSendFileAddress = (
+  config: AdapterConfigSendFile,
+): string => {
+  const path = trimEnd(config.path.replace(/\//g, '\\'), '\\');
+  return `${path}\\${config.fileName}`;
+};
+
+export const formatSendNSoftwareFtpAddress = (
+  config: AdapterConfigSendNSoftwareFtp,
+): string => {
+  const path = trimStart(trimEnd(config.path.replace(/\\/g, '/'), '/'), '/');
+  return `FTP://${config.userName}@${config.server}:${config.port}/${path}/${config.fileName}`;
+};
+
+export const formatSendNSoftwareSftpAddress = (
+  config: AdapterConfigSendNSoftwareSftp,
+): string => {
+  const path = trimStart(trimEnd(config.path.replace(/\\/g, '/'), '/'), '/');
+  return `SFTP://${config.userName}@${config.server}:${config.port}/${path}/${config.fileName}`;
+};
+
+export const formatReceiveFileAddress = (
+  config: AdapterConfigReceiveFile,
+): string => {
+  const path = trimEnd(config.path.replace(/\//g, '\\'), '\\');
+  return `${path}\\${config.fileMask}`;
+};
+
+export const formatReceiveNSoftwareFtpAddress = (
+  config: AdapterConfigReceiveNSoftwareFtp,
+): string => {
+  const path = trimStart(trimEnd(config.path.replace(/\\/g, '/'), '/'), '/');
+  return `FTP://${config.userName}@${config.server}:${config.port}/${path}/${config.fileMask}`;
+};
+
+export const formatReceiveNSoftwareSftpAddress = (
+  config: AdapterConfigReceiveNSoftwareSftp,
+): string => {
+  const path = trimStart(trimEnd(config.path.replace(/\\/g, '/'), '/'), '/');
+  return `SFTP://${config.userName}@${config.server}:${config.port}/${path}/${config.fileMask}`;
+};
+
 export const defaultAdapterConfigSendFile = (): AdapterConfigSendFile => {
   return {
     path: '',
