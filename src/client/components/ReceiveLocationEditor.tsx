@@ -152,16 +152,18 @@ const ReceiveLocationEditor = (
 
   return (
     <>
-      <div className="form-group">
-        <Select
-          id="sendPortTemplate"
-          label="Template"
-          items={templates}
-          selectedItem={template}
-          onChange={setTemplate}
-          formatter={(t): string => t.templateName}
-        />
-      </div>
+      {templates.length > 1 && (
+        <div className="form-group">
+          <Select
+            id="sendPortTemplate"
+            label="Template"
+            items={templates}
+            selectedItem={template}
+            onChange={setTemplate}
+            formatter={(t): string => t.templateName}
+          />
+        </div>
+      )}
       <div className="form-group">
         <InputText
           id="profileName"
