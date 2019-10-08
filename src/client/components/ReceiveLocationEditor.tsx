@@ -23,13 +23,14 @@ import ReceiveLocationEditorNSoftwareSftp from './ReceiveLocationEditorNSoftware
 
 interface ReceiveLocationEditorProps {
   templates: ReceiveLocationTemplate[];
-  onAdd: (rl: ReceiveLocation, rp: string) => void;
+  onSubmit: (rl: ReceiveLocation, rp: string) => void;
+  onCancel: () => void;
 }
 
 const ReceiveLocationEditor = (
   props: ReceiveLocationEditorProps,
 ): JSX.Element => {
-  const { templates, onAdd } = props;
+  const { templates, onSubmit, onCancel } = props;
 
   const [template, setTemplate] = useState<ReceiveLocationTemplate>(
     templates[0],
@@ -149,8 +150,12 @@ const ReceiveLocationEditor = (
     }
   };
 
-  const handleAddClick = (): void => {
-    onAdd(rl, template.receivePort);
+  const handleOKClick = (): void => {
+    onSubmit(rl, template.receivePort);
+  };
+
+  const handleCancelClick = (): void => {
+    onCancel();
   };
 
   return (
@@ -207,9 +212,16 @@ const ReceiveLocationEditor = (
       <button
         className="btn btn-primary mb-3"
         type="button"
-        onClick={handleAddClick}
+        onClick={handleOKClick}
       >
-        Add
+        OK
+      </button>
+      <button
+        className="btn btn-secondary mb-3 ml-3"
+        type="button"
+        onClick={handleCancelClick}
+      >
+        Cancel
       </button>
     </>
   );

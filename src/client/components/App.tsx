@@ -13,8 +13,8 @@ import {
   applicationFactory,
 } from '../../shared/template';
 import ApplicationTemplatesPanel from './ApplicationTemplatesPanel';
-import SendPortsPanel from './SendPortsPanel';
-import ReceiveLocationPanel from './ReceiveLocatoinPanel';
+import SendPortPanel from './SendPortPanel';
+import ReceiveLocationPanel from './ReceiveLocationPanel';
 import GeneratePanel from './GeneratePanel';
 
 const App = (): JSX.Element => {
@@ -125,7 +125,7 @@ const App = (): JSX.Element => {
         selectedTemplate={appTemplate}
         onChange={handleTemplateChange}
       />
-      <SendPortsPanel
+      <SendPortPanel
         sps={app.sendPorts}
         templates={appTemplate.sendPortTemplates}
         onAdd={handleAddSP}

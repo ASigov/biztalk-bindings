@@ -23,11 +23,12 @@ import SendPortEditorNSoftwareSftp from './SendPortEditorNSoftwareSftp';
 
 interface SendPortEditorProps {
   templates: SendPortTemplate[];
-  onAdd: (sp: SendPort) => void;
+  onSubmit: (sp: SendPort) => void;
+  onCancel: () => void;
 }
 
 const SendPortEditor = (props: SendPortEditorProps): JSX.Element => {
-  const { templates, onAdd } = props;
+  const { templates, onSubmit, onCancel } = props;
 
   const [template, setTemplate] = useState<SendPortTemplate>(templates[0]);
   const [sp, setSP] = useState<SendPort>(sendPortFactory(template));
@@ -152,8 +153,12 @@ const SendPortEditor = (props: SendPortEditorProps): JSX.Element => {
     }
   };
 
-  const handleAddClick = (): void => {
-    onAdd(sp);
+  const handleOKClick = (): void => {
+    onSubmit(sp);
+  };
+
+  const handleCancelClick = (): void => {
+    onCancel();
   };
 
   return (
@@ -210,9 +215,16 @@ const SendPortEditor = (props: SendPortEditorProps): JSX.Element => {
       <button
         className="btn btn-primary mb-3"
         type="button"
-        onClick={handleAddClick}
+        onClick={handleOKClick}
       >
-        Add
+        OK
+      </button>
+      <button
+        className="btn btn-secondary mb-3 ml-3"
+        type="button"
+        onClick={handleCancelClick}
+      >
+        Cancel
       </button>
     </>
   );
