@@ -262,6 +262,7 @@ export const defaultAdapterConfigReceive = (
 export const sendPortFactory = (template: SendPortTemplate): SendPort => {
   const sp: SendPort = {
     name: template.sendPortPrefix,
+    profileName: '',
     address: '',
     adapterName: template.adapters[0],
     adapterConfig: defaultAdapterConfigSend(template.adapters[0]),
@@ -282,6 +283,7 @@ export const receiveLocationFactory = (
 ): ReceiveLocation => {
   const rl: ReceiveLocation = {
     name: template.receiveLocationPrefix,
+    profileName: '',
     address: '',
     adapterName: template.adapters[0],
     adapterConfig: defaultAdapterConfigReceive(template.adapters[0]),

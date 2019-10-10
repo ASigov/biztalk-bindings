@@ -9,6 +9,7 @@ const mapReceiveLocations = (
     .map(
       (rl): ReceiveLocation => ({
         name: rl.name,
+        profileName: '',
         address: rl.address,
         adapterName: rl.adapterName,
         adapterConfig: mapAdapterConfigReceive(rl),

@@ -12,6 +12,7 @@ const mapSendPorts = (
     .map(
       (sp): SendPort => ({
         name: sp.name,
+        profileName: '',
         address: sp.address,
         adapterName: sp.adapterName,
         adapterConfig: mapAdapterConfigSend(sp),
