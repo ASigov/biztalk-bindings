@@ -15,6 +15,7 @@ export interface ReceivePort {
 
 export interface ReceiveLocation {
   name: string;
+  profileName: string;
   address: string;
   adapterName: string;
   adapterConfig: AdapterConfigReceive;
@@ -22,6 +23,7 @@ export interface ReceiveLocation {
 
 export interface SendPort {
   name: string;
+  profileName: string;
   address: string;
   adapterName: string;
   adapterConfig: AdapterConfigSend;

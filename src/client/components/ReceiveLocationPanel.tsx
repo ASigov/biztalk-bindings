@@ -8,13 +8,14 @@ interface ReceiveLocationPanelProps {
   rls: ReceiveLocation[];
   templates: ReceiveLocationTemplate[];
   onAdd: (rl: ReceiveLocation, rp: string) => void;
+  onEdit: (rl: ReceiveLocation, rlIndex: number, rp: string) => void;
   onDelete: (rl: ReceiveLocation) => void;
 }
 
 const ReceiveLocationPanel = (
   props: ReceiveLocationPanelProps,
 ): JSX.Element => {
-  const { rls, templates, onAdd, onDelete } = props;
+  const { rls, templates, onAdd, onEdit, onDelete } = props;
 
   const [editorVisible, setEditorVisible] = useState<boolean>(false);
 
@@ -66,7 +67,12 @@ const ReceiveLocationPanel = (
 
       <div className="row">
         <div className="col">
-          <ReceiveLocationList rls={rls} onDelete={onDelete} />
+          <ReceiveLocationList
+            rls={rls}
+            templates={templates}
+            onEdit={onEdit}
+            onDelete={onDelete}
+          />
         </div>
       </div>
     </>

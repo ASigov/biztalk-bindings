@@ -95,14 +95,30 @@ export const formatReceiveNSoftwareSftpAddress = (
   return `SFTP://${config.userName}@${config.server}:${config.port}/${path}/${config.fileMask}`;
 };
 
-export const defaultAdapterConfigSendFile = (): AdapterConfigSendFile => {
+export const defaultAdapterConfigSendFile = (
+  sp?: SendPort,
+): AdapterConfigSendFile => {
+  if (sp && sp.adapterName === 'FILE') {
+    return sp.adapterConfig as AdapterConfigSendFile;
+  }
+
   return {
     path: '',
     fileName: '%SourceFileName%',
   };
 };
 
-export const defaultAdapterConfigSendNSoftwareFtp = (): AdapterConfigSendNSoftwareFtp => {
+export const defaultAdapterConfigSendNSoftwareFtp = (
+  sp?: SendPort,
+): AdapterConfigSendNSoftwareFtp => {
+  if (
+    sp &&
+    (sp.adapterName === 'nsoftware.FTP v4' ||
+      sp.adapterName === 'nsoftware.FTP 2016')
+  ) {
+    return sp.adapterConfig as AdapterConfigSendNSoftwareFtp;
+  }
+
   return {
     path: '',
     fileName: '%SourceFileName%',
@@ -113,7 +129,17 @@ export const defaultAdapterConfigSendNSoftwareFtp = (): AdapterConfigSendNSoftwa
   };
 };
 
-export const defaultAdapterConfigSendNSoftwareSftp = (): AdapterConfigSendNSoftwareSftp => {
+export const defaultAdapterConfigSendNSoftwareSftp = (
+  sp?: SendPort,
+): AdapterConfigSendNSoftwareSftp => {
+  if (
+    sp &&
+    (sp.adapterName === 'nsoftware.SFTP v4' ||
+      sp.adapterName === 'nsoftware.SFTP 2016')
+  ) {
+    return sp.adapterConfig as AdapterConfigSendNSoftwareSftp;
+  }
+
   return {
     path: '',
     fileName: '%SourceFileName%',
@@ -124,14 +150,30 @@ export const defaultAdapterConfigSendNSoftwareSftp = (): AdapterConfigSendNSoftw
   };
 };
 
-export const defaultAdapterConfigReceiveFile = (): AdapterConfigReceiveFile => {
+export const defaultAdapterConfigReceiveFile = (
+  rl?: ReceiveLocation,
+): AdapterConfigReceiveFile => {
+  if (rl && rl.adapterName === 'FILE') {
+    return rl.adapterConfig as AdapterConfigReceiveFile;
+  }
+
   return {
     path: '',
     fileMask: '*.*',
   };
 };
 
-export const defaultAdapterConfigReceiveNSoftwareFtp = (): AdapterConfigReceiveNSoftwareFtp => {
+export const defaultAdapterConfigReceiveNSoftwareFtp = (
+  rl?: ReceiveLocation,
+): AdapterConfigReceiveNSoftwareFtp => {
+  if (
+    rl &&
+    (rl.adapterName === 'nsoftware.FTP v4' ||
+      rl.adapterName === 'nsoftware.FTP 2016')
+  ) {
+    return rl.adapterConfig as AdapterConfigReceiveNSoftwareFtp;
+  }
+
   return {
     path: '',
     fileMask: '*.*',
@@ -143,7 +185,17 @@ export const defaultAdapterConfigReceiveNSoftwareFtp = (): AdapterConfigReceiveN
   };
 };
 
-export const defaultAdapterConfigReceiveNSoftwareSftp = (): AdapterConfigReceiveNSoftwareSftp => {
+export const defaultAdapterConfigReceiveNSoftwareSftp = (
+  rl?: ReceiveLocation,
+): AdapterConfigReceiveNSoftwareSftp => {
+  if (
+    rl &&
+    (rl.adapterName === 'nsoftware.SFTP v4' ||
+      rl.adapterName === 'nsoftware.SFTP 2016')
+  ) {
+    return rl.adapterConfig as AdapterConfigReceiveNSoftwareSftp;
+  }
+
   return {
     path: '',
     fileMask: '*.*',

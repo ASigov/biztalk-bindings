@@ -41,6 +41,16 @@ const App = (): JSX.Element => {
     setApp(newApp);
   };
 
+  const handleEditSP = (updatedSP: SendPort, spIndex: number): void => {
+    app.sendPorts[spIndex] = updatedSP;
+    const newApp: Application = {
+      name: app.name,
+      receivePorts: app.receivePorts,
+      sendPorts: app.sendPorts,
+    };
+    setApp(newApp);
+  };
+
   const handleDeleteSP = (deletedSP: SendPort): void => {
     const newApp: Application = {
       name: app.name,
@@ -73,6 +83,25 @@ const App = (): JSX.Element => {
           name: receivePortName,
           receiveLocations: [newRL],
         }),
+        sendPorts: app.sendPorts,
+      };
+      setApp(newApp);
+    }
+  };
+
+  const handleEditRL = (
+    updatedRL: ReceiveLocation,
+    rlIndex: number,
+    receivePortName: string,
+  ): void => {
+    const receivePort = app.receivePorts.find(
+      (rp): boolean => rp.name === receivePortName,
+    );
+    if (receivePort) {
+      receivePort.receiveLocations[rlIndex] = updatedRL;
+      const newApp: Application = {
+        name: app.name,
+        receivePorts: app.receivePorts,
         sendPorts: app.sendPorts,
       };
       setApp(newApp);
@@ -129,12 +158,14 @@ const App = (): JSX.Element => {
         sps={app.sendPorts}
         templates={appTemplate.sendPortTemplates}
         onAdd={handleAddSP}
+        onEdit={handleEditSP}
         onDelete={handleDeleteSP}
       />
       <ReceiveLocationPanel
         rls={receiveLocations}
         templates={appTemplate.receiveLocationTemplates}
         onAdd={handleAddRL}
+        onEdit={handleEditRL}
         onDelete={handleDeleteRL}
       />
       <GeneratePanel app={app} onGenerate={handleGenerate} />

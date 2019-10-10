@@ -8,11 +8,12 @@ interface SendPortPanelProps {
   sps: SendPort[];
   templates: SendPortTemplate[];
   onAdd: (sp: SendPort) => void;
+  onEdit: (sp: SendPort, spIndex: number) => void;
   onDelete: (sp: SendPort) => void;
 }
 
 const SendPortPanel = (props: SendPortPanelProps): JSX.Element => {
-  const { sps, templates, onAdd, onDelete } = props;
+  const { sps, templates, onAdd, onEdit, onDelete } = props;
 
   const [editorVisible, setEditorVisible] = useState<boolean>(false);
 
@@ -63,7 +64,12 @@ const SendPortPanel = (props: SendPortPanelProps): JSX.Element => {
       )}
       <div className="row">
         <div className="col">
-          <SendPortList sps={sps} onDelete={onDelete} />
+          <SendPortList
+            sps={sps}
+            templates={templates}
+            onEdit={onEdit}
+            onDelete={onDelete}
+          />
         </div>
       </div>
     </>

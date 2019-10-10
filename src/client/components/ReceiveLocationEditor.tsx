@@ -22,6 +22,7 @@ import ReceiveLocationEditorNSoftwareFtp from './ReceiveLocationEditorNSoftwareF
 import ReceiveLocationEditorNSoftwareSftp from './ReceiveLocationEditorNSoftwareSftp';
 
 interface ReceiveLocationEditorProps {
+  initialRL?: ReceiveLocation;
   templates: ReceiveLocationTemplate[];
   onSubmit: (rl: ReceiveLocation, rp: string) => void;
   onCancel: () => void;
@@ -30,27 +31,28 @@ interface ReceiveLocationEditorProps {
 const ReceiveLocationEditor = (
   props: ReceiveLocationEditorProps,
 ): JSX.Element => {
-  const { templates, onSubmit, onCancel } = props;
+  const { initialRL, templates, onSubmit, onCancel } = props;
 
   const [template, setTemplate] = useState<ReceiveLocationTemplate>(
     templates[0],
   );
   const [rl, setRL] = useState<ReceiveLocation>(
-    receiveLocationFactory(template),
+    initialRL || receiveLocationFactory(template),
   );
   const [fileConfig, setFileConfig] = useState<AdapterConfigReceiveFile>(
-    defaultAdapterConfigReceiveFile(),
+    defaultAdapterConfigReceiveFile(rl),
   );
   const [nSoftwareFtpConfig, setNSoftwareFtpConfig] = useState<
     AdapterConfigReceiveNSoftwareFtp
-  >(defaultAdapterConfigReceiveNSoftwareFtp());
+  >(defaultAdapterConfigReceiveNSoftwareFtp(rl));
   const [nSoftwareSftpConfig, setNSoftwareSftpConfig] = useState<
     AdapterConfigReceiveNSoftwareSftp
-  >(defaultAdapterConfigReceiveNSoftwareSftp());
+  >(defaultAdapterConfigReceiveNSoftwareSftp(rl));
 
   const handleProfileNameChange = (newProfileName: string): void => {
     const newRL: ReceiveLocation = {
       name: template.receiveLocationPrefix + newProfileName,
+      profileName: newProfileName,
       address: rl.address,
       adapterName: rl.adapterName,
       adapterConfig: rl.adapterConfig,
@@ -62,6 +64,7 @@ const ReceiveLocationEditor = (
   const handleAdapterNameChange = (newAdapterName: string): void => {
     const newRL: ReceiveLocation = {
       name: rl.name,
+      profileName: rl.profileName,
       address: rl.address,
       adapterName: newAdapterName,
       adapterConfig: rl.adapterConfig,
@@ -92,6 +95,7 @@ const ReceiveLocationEditor = (
   ): void => {
     const newRL: ReceiveLocation = {
       name: rl.name,
+      profileName: rl.profileName,
       address: rl.address,
       adapterName: rl.adapterName,
       adapterConfig: rl.adapterConfig,
@@ -111,6 +115,7 @@ const ReceiveLocationEditor = (
   ): void => {
     const newRL: ReceiveLocation = {
       name: rl.name,
+      profileName: rl.profileName,
       address: rl.address,
       adapterName: rl.adapterName,
       adapterConfig: rl.adapterConfig,
@@ -133,6 +138,7 @@ const ReceiveLocationEditor = (
   ): void => {
     const newRL: ReceiveLocation = {
       name: rl.name,
+      profileName: rl.profileName,
       address: rl.address,
       adapterName: rl.adapterName,
       adapterConfig: rl.adapterConfig,
@@ -163,7 +169,7 @@ const ReceiveLocationEditor = (
       {templates.length > 1 && (
         <div className="form-group">
           <Select
-            id="sendPortTemplate"
+            id="receiveLocationTemplate"
             label="Template"
             items={templates}
             selectedItem={template}
@@ -175,6 +181,7 @@ const ReceiveLocationEditor = (
       <div className="form-group">
         <InputText
           id="profileName"
+          value={rl.profileName}
           label="Profile name"
           onChange={handleProfileNameChange}
         />

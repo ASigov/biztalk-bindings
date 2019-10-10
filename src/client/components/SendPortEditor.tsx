@@ -22,29 +22,33 @@ import SendPortEditorNSoftwareFtp from './SendPortEditorNSoftwareFtp';
 import SendPortEditorNSoftwareSftp from './SendPortEditorNSoftwareSftp';
 
 interface SendPortEditorProps {
+  initialSP?: SendPort;
   templates: SendPortTemplate[];
   onSubmit: (sp: SendPort) => void;
   onCancel: () => void;
 }
 
 const SendPortEditor = (props: SendPortEditorProps): JSX.Element => {
-  const { templates, onSubmit, onCancel } = props;
+  const { initialSP, templates, onSubmit, onCancel } = props;
 
   const [template, setTemplate] = useState<SendPortTemplate>(templates[0]);
-  const [sp, setSP] = useState<SendPort>(sendPortFactory(template));
+  const [sp, setSP] = useState<SendPort>(
+    initialSP || sendPortFactory(template),
+  );
   const [fileConfig, setFileConfig] = useState<AdapterConfigSendFile>(
-    defaultAdapterConfigSendFile(),
+    defaultAdapterConfigSendFile(sp),
   );
   const [nSoftwareFtpConfig, setNSoftwareFtpConfig] = useState<
     AdapterConfigSendNSoftwareFtp
-  >(defaultAdapterConfigSendNSoftwareFtp());
+  >(defaultAdapterConfigSendNSoftwareFtp(sp));
   const [nSoftwareSftpConfig, setNSoftwareSftpConfig] = useState<
     AdapterConfigSendNSoftwareSftp
-  >(defaultAdapterConfigSendNSoftwareSftp());
+  >(defaultAdapterConfigSendNSoftwareSftp(sp));
 
   const handleProfileNameChange = (newProfileName: string): void => {
     const newSP: SendPort = {
       name: template.sendPortPrefix + newProfileName,
+      profileName: newProfileName,
       address: sp.address,
       adapterName: sp.adapterName,
       adapterConfig: sp.adapterConfig,
@@ -63,6 +67,7 @@ const SendPortEditor = (props: SendPortEditorProps): JSX.Element => {
   const handleAdapterNameChange = (newAdapterName: string): void => {
     const newSP: SendPort = {
       name: sp.name,
+      profileName: sp.profileName,
       address: sp.address,
       adapterName: newAdapterName,
       adapterConfig: sp.adapterConfig,
@@ -92,6 +97,7 @@ const SendPortEditor = (props: SendPortEditorProps): JSX.Element => {
   const handleFileConfigChange = (newConfig: AdapterConfigSendFile): void => {
     const newSP: SendPort = {
       name: sp.name,
+      profileName: sp.profileName,
       address: sp.address,
       adapterName: sp.adapterName,
       adapterConfig: sp.adapterConfig,
@@ -112,6 +118,7 @@ const SendPortEditor = (props: SendPortEditorProps): JSX.Element => {
   ): void => {
     const newSP: SendPort = {
       name: sp.name,
+      profileName: sp.profileName,
       address: sp.address,
       adapterName: sp.adapterName,
       adapterConfig: sp.adapterConfig,
@@ -135,6 +142,7 @@ const SendPortEditor = (props: SendPortEditorProps): JSX.Element => {
   ): void => {
     const newSP: SendPort = {
       name: sp.name,
+      profileName: sp.profileName,
       address: sp.address,
       adapterName: sp.adapterName,
       adapterConfig: sp.adapterConfig,
@@ -178,6 +186,7 @@ const SendPortEditor = (props: SendPortEditorProps): JSX.Element => {
       <div className="form-group">
         <InputText
           id="profileName"
+          value={sp.profileName}
           label="Profile name"
           onChange={handleProfileNameChange}
         />
