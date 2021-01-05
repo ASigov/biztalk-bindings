@@ -25,7 +25,7 @@
     "start-watch": "nodemon --inspect --watch dist/ --ext js --delay 2 dist/server/index.js"
   },
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "bootstrap": "^4.3.1",
     "bs-custom-file-input": "^1.3.2",
     "debug": "^4.1.1",
