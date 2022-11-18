@@ -64,7 +64,7 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.2",
-    "html-webpack-plugin": "^3.2.0",
+    "html-webpack-plugin": "^5.5.0",
     "nodemon": "^1.19.1",
     "prettier": "^1.18.2",
     "source-map-loader": "^0.2.4",
@@ -72,6 +72,6 @@
     "ts-node": "^8.3.0",
     "typescript": "^3.5.3",
     "webpack": "^4.35.3",
-    "webpack-cli": "^3.3.6"
+    "webpack-cli": "^3.3.12"
   }
 }
